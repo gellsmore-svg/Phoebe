@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from .model import validate
 
-OPERATIONS={"dns","tcp","unix","tls","http","systemd","filesystem","host","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}
+OPERATIONS={"dns","tcp","unix","tls","http","systemd","systemd_user","filesystem","host","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}
 FORBIDDEN=(ipaddress.ip_network("169.254.0.0/16"),ipaddress.ip_network("fe80::/10"),ipaddress.ip_network("0.0.0.0/8"),ipaddress.ip_network("100.100.100.200/32"))
 
 def read_json(path, limit=8*1024*1024):
@@ -30,8 +30,8 @@ def validate_manifest(m):
         if p["namespace"]!="current":raise ValueError("unsupported network namespace")
         if p["target"] not in m.get("allowed_targets",[]):raise ValueError("target not explicitly allowlisted")
         if p["operation"] in {"filesystem","unix"}:allowed_path(p["target"],m)
-        if p["operation"]=="systemd":
-            if p["target"] not in m.get("allowed_units",[]) or not re.fullmatch(r"[A-Za-z0-9_.@:-]+\.service",p["target"]):raise ValueError("unit denied")
+        if p["operation"] in {"systemd","systemd_user"}:
+            if p["target"] not in m.get("allowed_units",[]) or not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_.@:-]*\.service",p["target"]):raise ValueError("unit denied")
         if p.get("credential_ref") and not re.fullmatch(r"SUPPORT_[A-Z0-9_]+",p["credential_ref"]):raise ValueError("credential reference denied")
     if sum(p["timeout"] for p in m.get("probes",[]))>60:raise ValueError("nominal work budget exceeded")
     if len(m.get("entities",[]))+len(m.get("assertions",[]))>5000:raise ValueError("topology budget")

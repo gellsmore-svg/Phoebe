@@ -1,0 +1,8 @@
+[Unit]
+Description=Periodic bounded support evidence capture
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+RandomizedDelaySec=10
+[Install]
+WantedBy=timers.target

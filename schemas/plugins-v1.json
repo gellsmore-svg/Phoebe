@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0",
+  "trusted_code_only": true,
+  "platforms": ["Linux", "Python >=3.11"],
+  "technology_versions": "unknown accepted; actual tested versions in docs/test-report.md",
+  "capabilities": ["discovery", "telemetry_snapshot_import", "bounded_read_only_probe", "declarative_knowledge"],
+  "permissions": ["ordinary_user", "named_monitoring_credentials", "explicit_destination_allowlist"],
+  "request": "JSON stdin: probe, policy, deadline_at",
+  "response": "records-v1 observation with exactly matching subject/instance/operation/predicate/route/vantage",
+  "limits": {"workers":1,"checks":32,"deadline_seconds":10,"output_bytes":65536,"input_bytes":65536,"response_body_bytes":65536,"nominal_run_seconds":60},
+  "side_effect_class": "read_only",
+  "retries": 0,
+  "cancellation": "SIGKILL process group and reap worker",
+  "remediation": "absent"
+}

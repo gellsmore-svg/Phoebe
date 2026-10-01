@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "prefix": "support-evidence-2bec367d26",
+  "environment": {
+    "python": "3.12.3",
+    "kernel": "6.18.40.1-microsoft-standard-WSL2",
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39"
+  },
+  "images": {
+    "app": "support-evidence-fixture:0.1.0",
+    "mongo": "mongo:8.0",
+    "pg": "postgres:18",
+    "nginx": "nginx:1.28-alpine",
+    "blackbox": "prom/blackbox-exporter:v0.28.0",
+    "storage": "support-evidence-fixture:0.1.0"
+  },
+  "image_ids": {
+    "app": "sha256:824e495958b0adbb4e9b25987ac645569046fc29162d819da7af9757f5c59d29",
+    "mongo": "sha256:4968f22d0c6c10ef29952f3e807f62872ba22b3312f25803564fbfc08255efc2",
+    "pg": "sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722",
+    "nginx": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+    "blackbox": "sha256:e753ff9f3fc458d02cca5eddab5a77e1c175eee484a8925ac7d524f04366c2fc",
+    "storage": "sha256:824e495958b0adbb4e9b25987ac645569046fc29162d819da7af9757f5c59d29"
+  },
+  "image_digests": {
+    "app": [
+      "support-evidence-fixture@sha256:824e495958b0adbb4e9b25987ac645569046fc29162d819da7af9757f5c59d29"
+    ],
+    "mongo": [
+      "mongo@sha256:4968f22d0c6c10ef29952f3e807f62872ba22b3312f25803564fbfc08255efc2"
+    ],
+    "pg": [
+      "postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722"
+    ],
+    "nginx": [
+      "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236"
+    ],
+    "blackbox": [
+      "prom/blackbox-exporter@sha256:e753ff9f3fc458d02cca5eddab5a77e1c175eee484a8925ac7d524f04366c2fc"
+    ],
+    "storage": [
+      "support-evidence-fixture@sha256:824e495958b0adbb4e9b25987ac645569046fc29162d819da7af9757f5c59d29"
+    ]
+  },
+  "cases": [
+    {
+      "case": "healthy-control",
+      "passed": true,
+      "boundaries": [],
+      "expected": [],
+      "evidence_traceability": true,
+      "diagnosis_ms": 102.983,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "green-readiness-failed-oracle",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract"
+      ],
+      "expected": [
+        "HTTP route/functional contract"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 104.657,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "semantic-error-without-oracle",
+      "passed": true,
+      "boundaries": [],
+      "expected": [],
+      "evidence_traceability": true,
+      "diagnosis_ms": 93.895,
+      "notes": "actual wrong business response; no supplied oracle means unknown correctness",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "wrong-nginx-upstream-port",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract"
+      ],
+      "expected": [
+        "HTTP route/functional contract"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 101.685,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "wrong-nginx-upstream-unix",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract"
+      ],
+      "expected": [
+        "HTTP route/functional contract"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 96.271,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "absent-unix-listener",
+      "passed": true,
+      "boundaries": [
+        "listener/connectivity"
+      ],
+      "expected": [
+        "listener/connectivity"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 98.041,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "stopped-python",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract",
+        "listener/connectivity"
+      ],
+      "expected": [
+        "HTTP route/functional contract",
+        "listener/connectivity"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 95.809,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "postgres-connection-pass-blocked-query",
+      "passed": true,
+      "boundaries": [
+        "database representative operation"
+      ],
+      "expected": [
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 97.295,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "mongo-ping-pass-delayed-read",
+      "passed": true,
+      "boundaries": [
+        "database representative operation"
+      ],
+      "expected": [
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 91.18,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "instrumented-application-driver-checkout",
+      "passed": true,
+      "boundaries": [
+        "application driver checkout"
+      ],
+      "expected": [
+        "application driver checkout"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 94.813,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "mongo-revoked-credentials",
+      "passed": true,
+      "boundaries": [
+        "database representative operation"
+      ],
+      "expected": [
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 91.325,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "postgres-revoked-credentials",
+      "passed": true,
+      "boundaries": [
+        "database representative operation"
+      ],
+      "expected": [
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 92.234,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "stopped-mongo",
+      "passed": true,
+      "boundaries": [
+        "database reachability/authentication",
+        "database representative operation"
+      ],
+      "expected": [
+        "database reachability/authentication",
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 100.718,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "external-independent-vantage",
+      "passed": true,
+      "boundaries": [],
+      "expected": [],
+      "evidence_traceability": true,
+      "diagnosis_ms": 97.171,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "external-failure-local-pass",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract"
+      ],
+      "expected": [
+        "HTTP route/functional contract"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 94.574,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "bounded-volume-capacity-exhaustion",
+      "passed": true,
+      "boundaries": [
+        "filesystem capacity/inodes"
+      ],
+      "expected": [
+        "filesystem capacity/inodes"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 91.917,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "bounded-volume-inode-exhaustion",
+      "passed": true,
+      "boundaries": [
+        "filesystem capacity/inodes"
+      ],
+      "expected": [
+        "filesystem capacity/inodes"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 93.772,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "dns-failure",
+      "passed": true,
+      "boundaries": [
+        "DNS resolution"
+      ],
+      "expected": [
+        "DNS resolution"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 94.971,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "two-simultaneous-faults",
+      "passed": true,
+      "boundaries": [
+        "HTTP route/functional contract",
+        "database representative operation"
+      ],
+      "expected": [
+        "HTTP route/functional contract",
+        "database representative operation"
+      ],
+      "evidence_traceability": true,
+      "diagnosis_ms": 98.612,
+      "notes": "real disposable injection",
+      "false_causal_claims": 0
+    },
+    {
+      "case": "topology-drift-fixture",
+      "passed": true,
+      "boundaries": [],
+      "expected": [],
+      "evidence_traceability": true,
+      "diagnosis_ms": 93.895,
+      "notes": "contract fixture; not an observed trace capture",
+      "false_causal_claims": 0
+    }
+  ],
+  "blocker": null,
+  "cleanup_complete": true,
+  "unrelated_containers_preserved": true,
+  "ground_truth_location": "harness only, not incident evidence",
+  "limitations": [
+    "Coroot comparison pending",
+    "unfamiliar operator study pending",
+    "no production performance claim"
+  ]
+}

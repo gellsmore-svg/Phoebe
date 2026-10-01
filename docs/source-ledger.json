@@ -3,13 +3,13 @@
     "url": "https://docs.datadoghq.com/bits_ai/bits_investigation/",
     "retrieved": "2026-10-01",
     "status": 200,
-    "note": "retrieved primary text; TOSCA"
+    "note": "Direct urllib retrieval returned HTTP 200; web extraction unsupported Markdown. Product feature details remain limited to primary indexed documentation; no runtime comparison."
   },
   {
     "url": "https://docs.datadoghq.com/bits_ai/bits_remediation/",
     "retrieved": "2026-10-01",
     "status": 200,
-    "note": "retrieved primary text; TOSCA"
+    "note": "Direct urllib retrieval returned HTTP 200; web extraction unsupported Markdown. Product feature details remain limited to primary indexed documentation; no runtime comparison."
   },
   {
     "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",

@@ -10,7 +10,7 @@ from .policy import allowed_path
 
 
 def entity(id,kind,scope,attributes,technology="unknown",instance=None,method="linux_discovery"):
-    return validate({"schema_version":1,"kind":"entity","id":id,"scope":scope,"logical_id":id,"instance_id":instance,"entity_kind":kind,"technology":technology,"attributes":attributes,"provenance":provenance(method)})
+    return validate({"schema_version":1,"kind":"entity","id":id+":revision:"+digest([attributes,technology,instance])[:16],"scope":scope,"logical_id":id,"instance_id":instance,"entity_kind":kind,"technology":technology,"attributes":attributes,"provenance":provenance(method)})
 
 def assertion(source,target,relation,view,at,method="linux_discovery"):
     return validate({"schema_version":1,"kind":"assertion","id":"assertion:"+digest([source,target,relation,view,at])[:24],"source":source,"target":target,"relation":relation,"view":view,"valid_from":at,"valid_until":at+300 if view=="DISCOVERED" else None,"received_at":at,"provenance":provenance(method),"evidence_ids":[],"criticality":"unknown","condition":"UNKNOWN","synchrony":"unknown","status":"assertion"})

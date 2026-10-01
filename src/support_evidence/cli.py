@@ -66,7 +66,7 @@ def main(argv=None):
             if args.command=="coverage":print(canonical({"coverage":report["coverage"],"topology":report["topology"],"collector_health":report["collector_health"]}));return 0
             if args.command=="export":export_bundle(args.file,records,report);print(args.file);return 0
         print(canonical(report) if args.json else render(report,records),end="\n" if args.json else "")
-        return 1 if any(f["assessment"] in {"strong","moderate"} for f in report["findings"]) else 3 if report["findings"] or any("collection_or_predicate_unknown" in u or "stale" in u or "unsupported_failure" in u for u in report["unknowns"]) else 0
+        return 1 if any(f["assessment"] in {"strong","moderate"} for f in report["findings"]) else 3 if report["coverage"]["fresh_applicable"]==0 or report["findings"] or any("collection_or_predicate_unknown" in u or "stale" in u or "clock_skew" in u or "unsupported_failure" in u for u in report["unknowns"]) else 0
     except (ValueError,OSError,KeyError,StopIteration,sqlite3.Error):
         print("support-evidence: operation failed validation, policy, storage or input checks; no target-health conclusion",file=sys.stderr);return 3
     finally:

@@ -1,0 +1,14 @@
+{
+  "existing_tool": "Blackbox Exporter v0.28.0",
+  "target": "http://support-evidence-2bec367d26-app:65530/orders",
+  "raw_status_detects_failure": true,
+  "incremental_report_features": [
+    "retained evidence IDs",
+    "operation/vantage scope",
+    "unknown cause",
+    "bounded next check",
+    "offline replay"
+  ],
+  "operator_benefit": "not yet measured",
+  "coroot": "not installed; comparative study pending"
+}

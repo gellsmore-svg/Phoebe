@@ -1,0 +1,21 @@
+[Unit]
+Description=Bounded read-only support evidence capture
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/support-evidence/venv/bin/support-evidence check %h/.config/support-evidence/manifest.json
+SuccessExitStatus=1
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/support-evidence
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryMax=128M
+CPUQuota=20%
+TimeoutStartSec=75
+# User-manager unit; install only after reviewing the manifest.
+# Credentials belong in a narrow credential provider, never inline in this unit.

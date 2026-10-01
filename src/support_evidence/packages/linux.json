@@ -12,7 +12,7 @@
       "id": "linux.service",
       "version": "1.0.0",
       "operations": [
-        "systemd"
+        "systemd", "systemd_user"
       ],
       "boundary": "service/process",
       "message": "The measured service state does not satisfy its active-state contract.",

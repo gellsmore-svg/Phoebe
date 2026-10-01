@@ -1,0 +1,24 @@
+Impact contract: GET /orders authoritative ok=true
+Incident: incident:5a000e6472278f9cf31d04a5
+Time: 1790888593.6959438
+Graph: 500f45e247f18c43c23c7b487aa9038c5f948a70fd6fa4aedde922cb9ebbb5a6
+Engine: 0.1.0
+Rules: package:driver@1.0.0, package:http@1.0.0, package:linux@1.0.0, package:mongodb@1.0.0, package:network@1.0.0, package:postgresql@1.0.0
+Evidence supports measured boundaries; initiating cause remains unverified.
+Boundary: database representative operation [strong]
+  Scope: database:mongo / mongodb_read / mongodb_read / local:host
+  The bounded representative Mongo read contract failed; server pressure, auth, locks and network remain candidates.
+  Rule: mongodb.mongo_read@1.0.0
+  Support: obs:c67459e799b046e3a038df0210142f9c
+  Contradictions: none measured
+  Unknown: initiating cause unverified; unmeasured operations and vantages remain unknown
+  Evidence obs:c67459e799b046e3a038df0210142f9c: OK/FAIL reason=database_deadline_or_connection method=probe event=1790888593.6140106
+  Next [collect_driver_checkout]: Import bounded instrumented application-driver checkout wait/timeouts; do not use server connection counts.
+PASS obs:028b6c5b585c4da585cdb010de58ed11: database:mongo / mongodb_ping / mongodb_ping / mongodb_ping / local:host at 1790888591.0198896
+Unknown: Business correctness unknown without an authoritative oracle.
+Unknown: Failure location does not establish an initiating cause.
+Collector probe: OK/fresh
+Coverage: 2 fresh applicable of 2 observations; all unmeasured paths unknown.
+History: disabled; no verified matches asserted.
+Permitted: registered read-only diagnostics under manifest policy.
+Approval required: all remediation; executor absent.

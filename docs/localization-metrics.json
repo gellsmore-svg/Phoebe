@@ -1,0 +1,16 @@
+{
+  "top1_measured_boundary_hit": {
+    "hits": 16,
+    "cases": 16
+  },
+  "topk_expected_boundary_sets": {
+    "hits": 16,
+    "cases": 16
+  },
+  "abstention_unknown_signatures": "covered by unit tests; no heterogeneous rate measured",
+  "asserted_initiating_causes": 0,
+  "false_causal_claims": "no cause-claim templates; general accuracy unmeasured",
+  "evidence_traceability": true,
+  "per_case_timing": "integration diagnosis_ms includes report export/replay-validation I/O; not pure diagnosis latency",
+  "operator_success": "pending"
+}

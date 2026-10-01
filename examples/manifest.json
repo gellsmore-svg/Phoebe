@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "scope": "example-host",
+  "agent_vantage": "local:example-host",
+  "impact_contract": "Read-only GET /orders returns status 200 and ok=true",
+  "allowed_targets": ["http://127.0.0.1:8080/orders", "http://127.0.0.1:8080/ready", "mongodb://127.0.0.1:27017", "postgresql://127.0.0.1:5432", "/tmp"],
+  "allowed_addresses": {"127.0.0.1": ["127.0.0.1"]},
+  "allowed_paths": ["/tmp"],
+  "allowed_units": [],
+  "entities": [],
+  "assertions": [],
+  "probes": [
+    {"schema_version":1,"kind":"probe","id":"probe:orders","subject":"service:app","operation":"http","predicate":"orders_oracle","target":"http://127.0.0.1:8080/orders","vantage":"local:example-host","namespace":"current","route":"/orders","timeout":3,"interval":30,"freshness":60,"cost":"low","side_effect":"read_only","expected":{"status":200,"json_key":"ok","json_value":true}},
+    {"schema_version":1,"kind":"probe","id":"probe:ready","subject":"service:app","operation":"http","predicate":"ready_status","target":"http://127.0.0.1:8080/ready","vantage":"local:example-host","namespace":"current","route":"/ready","timeout":3,"interval":30,"freshness":60,"cost":"low","side_effect":"read_only","expected":{"status":200}},
+    {"schema_version":1,"kind":"probe","id":"probe:mongo-read","subject":"database:mongo","operation":"mongodb_read","predicate":"fixture_exists","target":"mongodb://127.0.0.1:27017","vantage":"local:example-host","namespace":"current","route":"support.support_probe/_id=1","credential_ref":"SUPPORT_MONGO","timeout":3,"interval":30,"freshness":60,"cost":"low","side_effect":"read_only","expected":{}},
+    {"schema_version":1,"kind":"probe","id":"probe:postgres-read","subject":"database:postgres","operation":"postgresql_read","predicate":"fixture_exists","target":"postgresql://127.0.0.1:5432","vantage":"local:example-host","namespace":"current","route":"public.support_probe/id=1","credential_ref":"SUPPORT_PG","timeout":3,"interval":30,"freshness":60,"cost":"low","side_effect":"read_only","expected":{}},
+    {"schema_version":1,"kind":"probe","id":"probe:filesystem","subject":"storage:tmp","operation":"filesystem","predicate":"headroom","target":"/tmp","vantage":"local:example-host","namespace":"current","route":"/tmp","timeout":3,"interval":30,"freshness":60,"cost":"low","side_effect":"read_only","expected":{"min_free_bytes":1048576,"min_free_inodes":10}}
+  ],
+  "changes": []
+}

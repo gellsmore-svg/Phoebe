@@ -1,0 +1,21 @@
+{
+  "workload": "1000 observations, distinct subjects, 10 failed contracts, no network/LLM/source index",
+  "hardware": {
+    "cpu": "AMD Ryzen 7 5800H with Radeon Graphics",
+    "kernel": "6.18.40.1-microsoft-standard-WSL2",
+    "python": "3.12.3",
+    "logical_cpus": 16
+  },
+  "diagnosis_seconds": 0.7867594300041674,
+  "peak_rss_bytes": 40624128,
+  "bundle_bytes": 870200,
+  "findings": 10,
+  "budgets": {
+    "seconds": 2,
+    "rss_bytes": 134217728,
+    "bundle_bytes": 8388608
+  },
+  "passed": true,
+  "replay_equal": true,
+  "limits": "CLI workload only; continuous agent overhead unmeasured"
+}

@@ -56,11 +56,11 @@ def supervise(argv, request, timeout, env=None, output_limit=65536):
 
 def run_probe(probe,manifest):
     # Restrict inherited variables to runtime basics plus the one explicit secret ref.
-    env={k:v for k,v in os.environ.items() if k in {"PATH","LANG","LC_ALL","PYTHONPATH","HOME","SSL_CERT_FILE","SSL_CERT_DIR"}}
+    env={k:v for k,v in os.environ.items() if k in {"PATH","LANG","LC_ALL","PYTHONPATH","HOME","SSL_CERT_FILE","SSL_CERT_DIR","XDG_RUNTIME_DIR"}}
     ref=probe.get("credential_ref")
     if ref and ref in os.environ:env[ref]=os.environ[ref]
     try:
-        result=supervise([sys.executable,"-m","support_evidence.worker"],{"probe":probe,"policy":{k:manifest.get(k) for k in ["allowed_targets","allowed_addresses","allowed_paths","allowed_units","agent_vantage"]}},probe["timeout"],env)
+        result=supervise([sys.executable,"-m","support_evidence.worker"],{"probe":probe,"deadline_at":time.time()+probe["timeout"]-.1,"policy":{k:manifest.get(k) for k in ["allowed_targets","allowed_addresses","allowed_paths","allowed_units","agent_vantage"]}},probe["timeout"],env)
         validate(result)
         for k in ["subject","instance_id","operation","predicate","route","vantage"]:
             if result.get(k)!=probe.get(k):raise WorkerError("worker_scope_mismatch")

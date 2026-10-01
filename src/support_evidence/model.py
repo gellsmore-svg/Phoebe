@@ -28,8 +28,9 @@ def provenance(method, source="local", version="1"):
     return {"source": source, "method": method, "version": version}
 
 def validate(record):
-    if len(canonical(record).encode()) > 65536:
-        raise ValueError("record exceeds 64 KiB")
+    limit=8*1024*1024 if record.get("kind")=="incident" else 65536
+    if len(canonical(record).encode()) > limit:
+        raise ValueError("record size budget exceeded")
     errors = sorted(VALIDATOR.iter_errors(record), key=lambda e: str(e.path))
     if errors:
         # Do not echo the untrusted record or JSON Schema error, which includes values.
@@ -62,7 +63,10 @@ def clean(record):
             if UNSAFE_TEXT.search(value): raise ValueError("secret-bearing metadata rejected")
             if any(ord(c) < 32 for c in value): raise ValueError("control characters in metadata")
         return value
-    return validate(visit(record))
+    record=visit(record)
+    if record.get("kind")=="observation":
+        record.pop("integrity",None);record["integrity"]=digest(record)
+    return validate(record)
 
 def observation(probe, status="UNKNOWN", collector="OK", value=None, method="probe", now=None):
     now = time.time() if now is None else now

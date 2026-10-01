@@ -24,7 +24,7 @@ def secret(probe):
 
 def network(probe,m):
     host,port,path,scheme,ip=resolve(probe["target"],m)
-    op=probe["operation"];budget=max(0.01,probe["timeout"]-0.2)
+    op=probe["operation"];budget=max(0.01,probe.get("_deadline",time.monotonic()+probe["timeout"])-time.monotonic()-.1)
     if op=="dns":return {"addresses_count":1}
     if op.startswith("mongodb") or op.startswith("postgresql"):
         return database(probe,m,host,port,ip,budget)
@@ -34,7 +34,7 @@ def network(probe,m):
             try:s=ssl.create_default_context().wrap_socket(s,server_hostname=host)
             except ssl.SSLCertVerificationError as e:
                 code=e.verify_code
-                raise TargetFailure("tls_expired" if code==10 else "tls_hostname_mismatch" if code==62 else "tls_verification_failed") from None
+                raise TargetFailure("tls_expired" if code==10 else "tls_hostname_mismatch" if code in {62,64} else "tls_verification_failed") from None
             if op=="tls":
                 days=(ssl.cert_time_to_seconds(s.getpeercert()["notAfter"])-time.time())/86400
                 if days<probe["expected"].get("min_valid_days",0):raise TargetFailure("tls_expiry_budget")
@@ -66,7 +66,8 @@ def database(probe,m,host,port,ip,budget):
     if op.startswith("mongodb"):
         from pymongo import MongoClient
         from pymongo.errors import OperationFailure, PyMongoError
-        opts={"host":ip,"port":port,"username":creds["username"],"password":creds["password"],"authSource":creds.get("auth_source","admin"),"directConnection":True,"serverSelectionTimeoutMS":int(budget*1000),"connectTimeoutMS":int(budget*1000),"socketTimeoutMS":int(budget*1000),"maxPoolSize":1,"retryReads":False}
+        budget=max(.01,probe.get("_deadline",time.monotonic()+budget)-time.monotonic()-1.0)
+        opts={"host":ip,"port":port,"appname":"support-evidence-probe","username":creds["username"],"password":creds["password"],"authSource":creds.get("auth_source","admin"),"directConnection":True,"serverSelectionTimeoutMS":int(budget*1000),"connectTimeoutMS":int(budget*1000),"socketTimeoutMS":int(budget*1000),"maxPoolSize":1,"retryReads":False}
         # TLS deployments require literal-address certificates in this MVP. Never disable verification.
         if creds.get("ca_file"):opts.update(tls=True,tlsCAFile=str(allowed_path(creds["ca_file"],m)))
         try:
@@ -79,16 +80,19 @@ def database(probe,m,host,port,ip,budget):
             raise TargetFailure("authentication" if e.code in {13,18} else "database_operation") from None
         except PyMongoError:raise TargetFailure("database_deadline_or_connection") from None
     import psycopg
+    budget=max(.01,probe.get("_deadline",time.monotonic()+budget)-time.monotonic()-.2)
     try:
         with psycopg.connect(host=host,hostaddr=ip,port=port,user=creds["username"],password=creds["password"],dbname=creds.get("database","support"),connect_timeout=max(1,math.ceil(budget)),options="-c default_transaction_read_only=on -c statement_timeout="+str(int(budget*1000)),sslmode="verify-full" if creds.get("ca_file") else "disable",**({"sslrootcert":str(allowed_path(creds["ca_file"],m))} if creds.get("ca_file") else {})) as conn:
             if op=="postgresql_connect":return {}
+            query_budget=max(1,int((probe.get("_deadline",time.monotonic()+budget)-time.monotonic()-.2)*1000))
+            conn.execute("SELECT set_config('statement_timeout', %s, true)",(str(query_budget),))
             count=conn.execute("SELECT count(*) FROM public.support_probe WHERE id = 1").fetchone()[0]
             return {"rows_present":count>0},count>0
     except psycopg.Error as e:
         raise TargetFailure("authentication" if e.sqlstate and e.sqlstate.startswith("28") else "database_operation") from None
 
 def execute(probe,m):
-    start=time.monotonic();value={};status="PASS";collector="OK"
+    start=time.monotonic();probe=dict(probe);probe["_deadline"]=start+probe["timeout"]-.1;value={};status="PASS";collector="OK"
     try:
         op=probe["operation"]
         if op in {"dns","tcp","tls","http","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}:result=network(probe,m)
@@ -103,12 +107,12 @@ def execute(probe,m):
             info=dict(line.split(":",1) for line in open("/proc/meminfo"))
             result={"load1":os.getloadavg()[0],"available_bytes":int(info["MemAvailable"].strip().split()[0])*1024}
             status="PASS" if result["load1"]<=probe["expected"].get("max_load",1e9) and result["available_bytes"]>=probe["expected"].get("min_available_bytes",0) else "FAIL"
-        elif op=="systemd":
+        elif op in {"systemd","systemd_user"}:
             if probe["target"] not in m.get("allowed_units",[]):raise PermissionError()
-            r=subprocess.run(["systemctl","show",probe["target"],"--no-pager","--property=LoadState,ActiveState,SubState,Result,NRestarts,MainPID"],capture_output=True,timeout=max(.1,probe["timeout"]-.2))
-            if r.returncode:raise PermissionError()
+            r=subprocess.run(["systemctl",*(["--user"] if op=="systemd_user" else []),"show","--no-pager","--property=LoadState,ActiveState,SubState,Result,NRestarts,MainPID","--",probe["target"]],capture_output=True,timeout=max(.1,probe["timeout"]-.2))
             fields=dict(line.split("=",1) for line in r.stdout.decode().splitlines() if "=" in line)
-            if fields.get("LoadState") in {None,"not-found","error","masked"}:result={"state":"unit_unavailable"};status="UNKNOWN"
+            if fields.get("LoadState") in {"not-found","masked"}:result={"state":"unit_not_available"};status="FAIL"
+            elif r.returncode or fields.get("LoadState") in {None,"error"}:raise PermissionError()
             else:
                 result={"state":fields.get("ActiveState","unknown"),"service_result":fields.get("Result","unknown"),"restart_count":int(fields.get("NRestarts",0)),"pid":int(fields.get("MainPID",0))}
                 status="PASS" if result["state"]=="active" else "FAIL"
@@ -116,7 +120,10 @@ def execute(probe,m):
         if isinstance(result,tuple):value,ok=result;status="PASS" if ok else "FAIL"
         else:value=result
     except PermissionError:collector="DENIED";status="UNKNOWN";value={"reason":"policy_or_permission_denied"}
-    except (ImportError,FileNotFoundError):collector="UNAVAILABLE";status="UNKNOWN";value={"reason":"prerequisite_unavailable"}
+    except FileNotFoundError:
+        if probe["operation"]=="unix":status="FAIL";value={"reason":"operation_connection"}
+        else:collector="UNAVAILABLE";status="UNKNOWN";value={"reason":"prerequisite_unavailable"}
+    except ImportError:collector="UNAVAILABLE";status="UNKNOWN";value={"reason":"prerequisite_unavailable"}
     except TargetFailure as e:status="FAIL";value={"reason":e.reason}
     except socket.gaierror:status="FAIL";value={"reason":"dns_resolution"}
     except (socket.timeout,TimeoutError):status="FAIL";value={"reason":"operation_deadline"}
@@ -126,7 +133,9 @@ def execute(probe,m):
     return observation(probe,status,collector,value)
 
 def main():
-    request=json.loads(sys.stdin.buffer.readline(65537));result=execute(request["probe"],request["policy"])
+    request=json.loads(sys.stdin.buffer.readline(65537))
+    request["probe"]["timeout"]=min(request["probe"]["timeout"],max(.1,request.get("deadline_at",time.time()+10)-time.time()))
+    result=execute(request["probe"],request["policy"])
     print(canonical(result))
 
 if __name__=="__main__":main()

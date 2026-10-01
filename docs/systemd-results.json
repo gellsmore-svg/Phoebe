@@ -1,0 +1,13 @@
+{
+  "unit": "support-evidence-fixture-25d84ae3.service",
+  "manager": "real Linux systemd user manager",
+  "fault": "stopped isolated transient Python process",
+  "scope": "no system-level privilege or unit installation tested",
+  "healthy": "PASS",
+  "stopped": "FAIL",
+  "findings": [
+    "service/process"
+  ],
+  "passed": true,
+  "cleanup": "transient unit stopped and failed-state reset"
+}

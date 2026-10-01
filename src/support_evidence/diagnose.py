@@ -72,15 +72,20 @@ def diagnose(records,at,impact="unspecified operation",rule_packages=None,change
     return validate(report)
 
 def render(report,records):
-    index={r["id"]:r for r in records};lines=["Impact contract: "+report["impact_contract"],"Incident: "+report["id"],"Time: "+str(report["at"]),"Graph: "+report["graph_revision"],"Evidence supports measured boundaries; initiating cause remains unverified."]
+    index={r["id"]:r for r in records};lines=["Impact contract: "+report["impact_contract"],"Incident: "+report["id"],"Time: "+str(report["at"]),"Graph: "+report["graph_revision"],"Engine: "+report["engine_version"],"Rules: "+", ".join(k+"@"+v for k,v in sorted(report["rule_versions"].items())),"Evidence supports measured boundaries; initiating cause remains unverified."]
     if not report["findings"]:lines.append("No supported failing boundary; abstain or inspect scoped passing evidence.")
     for f in report["findings"]:
         lines += ["Boundary: "+f["boundary"]+" ["+f["assessment"]+"]", "  Scope: "+" / ".join(f[k] for k in ["subject","operation","route","vantage"]),"  "+f["message"],"  Rule: "+f["rule_id"]+"@"+f["rule_version"],"  Support: "+", ".join(f["supporting"]),"  Contradictions: "+(", ".join(f["contradicting"]) or "none measured"),"  Unknown: "+"; ".join(f["unknowns"])]
+        for i in f["supporting"]+f["contradicting"]:
+            o=index[i];lines.append("  Evidence "+i+": "+o["collector_status"]+"/"+o["predicate_status"]+" reason="+o["value"].get("reason","predicate_measured")+" method="+o["provenance"]["method"]+" event="+str(o["event_at"]))
         for a in f["next_checks"]:lines.append("  Next ["+a+"]: "+NEXT_CHECKS[a])
     for i in report["passed"]:
         o=index[i];lines.append("PASS "+i+": "+" / ".join(o[k] for k in ["subject","operation","predicate","route","vantage"])+" at "+str(o["event_at"]))
     lines += ["Unknown: "+u for u in report["unknowns"]]
     lines += ["Change: "+c for c in report["changes"]]
+    for method,values in sorted(report["collector_health"].items()):
+        lines.append("Collector "+method+": "+", ".join(sorted({v["collector_status"]+"/"+v["freshness"] for v in values})))
+    lines += ["Coverage: "+str(report["coverage"]["fresh_applicable"])+" fresh applicable of "+str(report["coverage"]["observations"])+" observations; all unmeasured paths unknown."]
     lines += ["History: disabled; no verified matches asserted.","Permitted: registered read-only diagnostics under manifest policy.","Approval required: all remediation; executor absent."]
     return "\n".join(lines)+"\n"
 
