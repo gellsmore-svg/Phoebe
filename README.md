@@ -1,4 +1,6 @@
-# Support Evidence
+# Phoebe — Support Evidence
+
+Phoebe follows the biblical-name convention used by the sibling repositories.
 
 A local CLI that gives an unfamiliar engineer a measured failing boundary, retained evidence and a bounded next check. It imports existing monitoring exports and performs explicitly allowlisted read-only probes. Diagnosis needs no LLM, source index, telemetry backend or graph database.
 
@@ -49,4 +51,4 @@ A retained example can be replayed immediately:
 
 Offline core installation is available with `pip install --no-index --find-links dist/wheelhouse support-evidence==0.1.0`. The supplied wheelhouse targets Linux/Python 3.12; rebuild dependency wheels for another platform. Removal uses `pip uninstall support-evidence` and preserves separately owned incident bundles/stores.
 
-The local repository has no remote and uses a repository-only `cello <cello@localhost>` commit identity. File-writing and validation commands run as cello. Linux filesystem mode enforcement should be used for sensitive operational stores; this checkout is on Windows DrvFS.
+GitHub repository: [gellsmore-svg/Phoebe](https://github.com/gellsmore-svg/Phoebe). The Python package and CLI remain `support-evidence`; the local checkout remains `/mnt/c/Users/cello/support-evidence`. Commits use a repository-only `cello <cello@localhost>` identity. File-writing and validation commands run as cello. Linux filesystem mode enforcement should be used for sensitive operational stores; this checkout is on Windows DrvFS.
