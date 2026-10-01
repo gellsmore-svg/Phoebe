@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:http",
+  "version": "1.0.0",
+  "technology": [
+    "nginx",
+    "python_http"
+  ],
+  "rules": [
+    {
+      "id": "http.http",
+      "version": "1.0.0",
+      "operations": [
+        "http"
+      ],
+      "boundary": "HTTP route/functional contract",
+      "message": "The measured HTTP route or supplied functional oracle failed; internal cause remains unresolved.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_upstream_http"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+  ],
+  "licence": "project original"
+}

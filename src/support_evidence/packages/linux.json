@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:linux",
+  "version": "1.0.0",
+  "technology": [
+    "linux",
+    "systemd"
+  ],
+  "rules": [
+    {
+      "id": "linux.service",
+      "version": "1.0.0",
+      "operations": [
+        "systemd"
+      ],
+      "boundary": "service/process",
+      "message": "The measured service state does not satisfy its active-state contract.",
+      "required_predicates": [],
+      "next_checks": [
+        "inspect_service_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "linux.host",
+      "version": "1.0.0",
+      "operations": [
+        "host"
+      ],
+      "boundary": "host/resources",
+      "message": "The measured host resource contract failed; a causal link to applications is unverified.",
+      "required_predicates": [],
+      "next_checks": [
+        "collect_host_metrics"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.kernel.org/doc/html/latest/filesystems/proc.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",
+    "https://www.kernel.org/doc/html/latest/filesystems/proc.html"
+  ],
+  "licence": "project original"
+}

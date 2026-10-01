@@ -1,0 +1,50 @@
+[
+  {
+    "url": "https://docs.datadoghq.com/bits_ai/bits_investigation/",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "retrieved primary text; TOSCA"
+  },
+  {
+    "url": "https://docs.datadoghq.com/bits_ai/bits_remediation/",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "retrieved primary text; TOSCA"
+  },
+  {
+    "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "retrieved primary text; systemctl"
+  },
+  {
+    "url": "https://docs.oasis-open.org/tosca/TOSCA/v2.0/TOSCA-v2.0.html",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "retrieved primary text; TOSCA"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/coroot/coroot/main/LICENSE",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/prometheus/blackbox_exporter/master/LICENSE",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "Apache-2.0"
+  },
+  {
+    "url": "https://api.github.com/repos/prometheus/blackbox_exporter/releases/latest",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "v0.28.0"
+  },
+  {
+    "url": "https://api.github.com/repos/coroot/coroot/releases/latest",
+    "retrieved": "2026-10-01",
+    "status": 200,
+    "note": "v1.27.0"
+  }
+]

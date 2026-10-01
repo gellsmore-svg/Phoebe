@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:mongodb",
+  "version": "1.0.0",
+  "technology": [
+    "mongodb",
+    "mongodb_driver"
+  ],
+  "rules": [
+    {
+      "id": "mongodb.mongo_connection",
+      "version": "1.0.0",
+      "operations": [
+        "mongodb_ping"
+      ],
+      "boundary": "database reachability/authentication",
+      "message": "The bounded Mongo operation failed; this does not establish driver-pool exhaustion.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.mongodb.com/docs/manual/reference/command/ping/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "mongodb.mongo_read",
+      "version": "1.0.0",
+      "operations": [
+        "mongodb_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The bounded representative Mongo read contract failed; server pressure, auth, locks and network remain candidates.",
+      "required_predicates": [],
+      "next_checks": [
+        "collect_driver_checkout"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/crud/query/find/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/crud/query/find/",
+    "https://www.mongodb.com/docs/manual/reference/command/ping/"
+  ],
+  "licence": "project original"
+}

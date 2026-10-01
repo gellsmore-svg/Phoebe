@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:postgresql",
+  "version": "1.0.0",
+  "technology": [
+    "postgresql"
+  ],
+  "rules": [
+    {
+      "id": "postgresql.pg_connection",
+      "version": "1.0.0",
+      "operations": [
+        "postgresql_connect"
+      ],
+      "boundary": "database connection/authentication",
+      "message": "The authenticated PostgreSQL connection operation failed.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/current/app-pg-isready.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.pg_read",
+      "version": "1.0.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The representative PostgreSQL query failed its contract; connection acceptance does not prove query correctness.",
+      "required_predicates": [],
+      "next_checks": [
+        "collect_database_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/current/runtime-config-client.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://www.postgresql.org/docs/current/app-pg-isready.html",
+    "https://www.postgresql.org/docs/current/runtime-config-client.html"
+  ],
+  "licence": "project original"
+}

@@ -1,0 +1,3 @@
+# Pre-measurement budgets
+Declared before performance runs: 1,000-record offline diagnosis <2 s wall time, peak RSS <128 MiB, JSON bundle <8 MiB; bounded incident maximum 5,000 records, 64 KiB per record, store 64 MiB logical payload and 10,000 records. Worker stdout+stderr <=64 KiB; deadline <=10 s plus 0.25 s termination allowance, one worker at a time, <=32 checks and <=60 s total nominal work per run. HTTP response <=64 KiB; manifest/import <=8 MiB. Discovery <=512 processes and 512 listeners.
+Performance results apply only to the recorded hardware and workload. No continuous-host overhead claim follows from CLI measurement.

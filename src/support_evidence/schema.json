@@ -1,0 +1,1341 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:support-evidence:1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/entity"
+    },
+    {
+      "$ref": "#/$defs/assertion"
+    },
+    {
+      "$ref": "#/$defs/probe"
+    },
+    {
+      "$ref": "#/$defs/observation"
+    },
+    {
+      "$ref": "#/$defs/finding"
+    },
+    {
+      "$ref": "#/$defs/action"
+    },
+    {
+      "$ref": "#/$defs/failure_package"
+    },
+    {
+      "$ref": "#/$defs/incident"
+    }
+  ],
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "entity"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "logical_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "instance_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entity_kind": {
+          "enum": [
+            "application",
+            "component",
+            "service",
+            "process",
+            "endpoint",
+            "host",
+            "network_boundary",
+            "storage"
+          ]
+        },
+        "technology": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "technology_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "attributes": {
+          "type": "object",
+          "maxProperties": 24
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "licence": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "maxItems": 5000
+            }
+          },
+          "required": [
+            "source",
+            "method",
+            "version"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "scope",
+        "logical_id",
+        "entity_kind",
+        "attributes",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "assertion": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "assertion"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "relation": {
+          "enum": [
+            "RUNS_ON",
+            "LISTENS_ON",
+            "PROXIES_TO",
+            "DEPENDS_ON",
+            "CONNECTS_TO",
+            "STORES_IN",
+            "EMITS",
+            "MONITORED_BY",
+            "FAILURE_PROPAGATES_TO"
+          ]
+        },
+        "view": {
+          "enum": [
+            "INTENDED",
+            "DISCOVERED",
+            "OBSERVED"
+          ]
+        },
+        "valid_from": {
+          "type": "number"
+        },
+        "valid_until": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "received_at": {
+          "type": "number"
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "licence": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "maxItems": 5000
+            }
+          },
+          "required": [
+            "source",
+            "method",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "route": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "criticality": {
+          "enum": [
+            "required",
+            "optional",
+            "unknown"
+          ]
+        },
+        "condition": {
+          "enum": [
+            "AND",
+            "OR",
+            "QUORUM",
+            "UNKNOWN"
+          ]
+        },
+        "quorum": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "synchrony": {
+          "enum": [
+            "synchronous",
+            "asynchronous",
+            "unknown"
+          ]
+        },
+        "status": {
+          "enum": [
+            "assertion",
+            "hypothesis",
+            "validated_mechanism"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "source",
+        "target",
+        "relation",
+        "view",
+        "valid_from",
+        "valid_until",
+        "received_at",
+        "provenance",
+        "evidence_ids",
+        "criticality",
+        "condition",
+        "synchrony",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "probe": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "probe"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "instance_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "predicate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "vantage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "namespace": {
+          "const": "current"
+        },
+        "route": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "credential_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "timeout": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "interval": {
+          "type": "number",
+          "minimum": 1
+        },
+        "freshness": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "cost": {
+          "enum": [
+            "low",
+            "bounded"
+          ]
+        },
+        "side_effect": {
+          "const": "read_only"
+        },
+        "expected": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            "sha256": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "json_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "json_value": {
+              "type": [
+                "number",
+                "string",
+                "boolean",
+                "null"
+              ]
+            },
+            "min_free_bytes": {
+              "type": "number"
+            },
+            "min_free_inodes": {
+              "type": "number"
+            },
+            "max_load": {
+              "type": "number"
+            },
+            "min_available_bytes": {
+              "type": "number"
+            },
+            "min_valid_days": {
+              "type": "number"
+            },
+            "min_rows": {
+              "type": "number"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "subject",
+        "operation",
+        "predicate",
+        "target",
+        "vantage",
+        "namespace",
+        "route",
+        "timeout",
+        "interval",
+        "freshness",
+        "cost",
+        "side_effect",
+        "expected"
+      ],
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "observation"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "instance_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "predicate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "route": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "event_at": {
+          "type": "number"
+        },
+        "received_at": {
+          "type": "number"
+        },
+        "freshness": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "vantage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "value": {
+          "type": "object",
+          "maxProperties": 24
+        },
+        "units": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "licence": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "maxItems": 5000
+            }
+          },
+          "required": [
+            "source",
+            "method",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "collector_status": {
+          "enum": [
+            "OK",
+            "ERROR",
+            "DENIED",
+            "TIMEOUT",
+            "UNAVAILABLE"
+          ]
+        },
+        "predicate_status": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "UNKNOWN"
+          ]
+        },
+        "coverage": {
+          "enum": [
+            "point",
+            "sampled",
+            "complete",
+            "unknown"
+          ]
+        },
+        "sampling": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "dependence_group": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "redaction": {
+          "const": "metadata_only"
+        },
+        "reliability": {
+          "enum": [
+            "direct",
+            "imported"
+          ]
+        },
+        "retention": {
+          "enum": [
+            "retained",
+            "reference_only"
+          ]
+        },
+        "integrity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "subject",
+        "operation",
+        "predicate",
+        "route",
+        "event_at",
+        "received_at",
+        "freshness",
+        "vantage",
+        "value",
+        "units",
+        "provenance",
+        "evidence_ids",
+        "collector_status",
+        "predicate_status",
+        "coverage",
+        "sampling",
+        "dependence_group",
+        "redaction",
+        "reliability",
+        "retention"
+      ],
+      "additionalProperties": false
+    },
+    "finding": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "finding"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "finding_type": {
+          "enum": [
+            "observation",
+            "inference",
+            "hypothesis"
+          ]
+        },
+        "boundary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "predicate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "route": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "vantage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "supporting": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "contradicting": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "rule_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "rule_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "assessment": {
+          "enum": [
+            "strong",
+            "moderate",
+            "weak",
+            "inconclusive"
+          ]
+        },
+        "gates": {
+          "type": "object"
+        },
+        "next_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "finding_type",
+        "boundary",
+        "subject",
+        "operation",
+        "predicate",
+        "route",
+        "vantage",
+        "supporting",
+        "contradicting",
+        "unknowns",
+        "rule_id",
+        "rule_version",
+        "assessment",
+        "gates",
+        "next_checks",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "action"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "classification": {
+          "const": "read"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "deadline": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "side_effect": {
+          "const": "read_only"
+        },
+        "approval_policy": {
+          "const": "manifest_authorized"
+        },
+        "verification": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "rollback": {
+          "const": "not_applicable"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "operation",
+        "classification",
+        "targets",
+        "permissions",
+        "preconditions",
+        "deadline",
+        "side_effect",
+        "approval_policy",
+        "verification",
+        "rollback"
+      ],
+      "additionalProperties": false
+    },
+    "failure_package": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "failure_package"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "technology": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "operations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "boundary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "required_predicates": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "next_checks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "unknowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "licence": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "fixtures": {
+                "type": "object",
+                "properties": {
+                  "positive": {
+                    "enum": [
+                      "FAIL"
+                    ]
+                  },
+                  "negative": {
+                    "enum": [
+                      "PASS"
+                    ]
+                  },
+                  "unknown": {
+                    "enum": [
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "required": [
+                  "positive",
+                  "negative",
+                  "unknown"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "operations",
+              "boundary",
+              "message",
+              "required_predicates",
+              "next_checks",
+              "unknowns",
+              "source_refs",
+              "licence",
+              "fixtures"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 5000
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "licence": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "version",
+        "technology",
+        "rules",
+        "source_refs",
+        "licence"
+      ],
+      "additionalProperties": false
+    },
+    "incident": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "incident"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "impact_contract": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "at": {
+          "type": "number"
+        },
+        "interval": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 5000
+        },
+        "graph_revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "rule_versions": {
+          "type": "object"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "const": 1
+              },
+              "kind": {
+                "const": "finding"
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "finding_type": {
+                "enum": [
+                  "observation",
+                  "inference",
+                  "hypothesis"
+                ]
+              },
+              "boundary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "subject": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "operation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "predicate": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "route": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "vantage": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "supporting": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "contradicting": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "unknowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "rule_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "rule_version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "assessment": {
+                "enum": [
+                  "strong",
+                  "moderate",
+                  "weak",
+                  "inconclusive"
+                ]
+              },
+              "gates": {
+                "type": "object"
+              },
+              "next_checks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "maxItems": 5000
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              }
+            },
+            "required": [
+              "schema_version",
+              "kind",
+              "id",
+              "finding_type",
+              "boundary",
+              "subject",
+              "operation",
+              "predicate",
+              "route",
+              "vantage",
+              "supporting",
+              "contradicting",
+              "unknowns",
+              "rule_id",
+              "rule_version",
+              "assessment",
+              "gates",
+              "next_checks",
+              "message"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 5000
+        },
+        "passed": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "history_matches": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "resolution": {
+          "enum": [
+            "unverified",
+            "operator_verified",
+            "retracted"
+          ]
+        },
+        "engine_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "collector_health": {
+          "type": "object"
+        },
+        "permitted_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "requires_approval": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        },
+        "coverage": {
+          "type": "object"
+        },
+        "topology": {
+          "type": "object"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 5000
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "impact_contract",
+        "at",
+        "interval",
+        "graph_revision",
+        "rule_versions",
+        "findings",
+        "passed",
+        "unknowns",
+        "changes",
+        "history_matches",
+        "resolution",
+        "engine_version",
+        "collector_health",
+        "permitted_actions",
+        "requires_approval",
+        "coverage",
+        "topology",
+        "evidence_ids"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

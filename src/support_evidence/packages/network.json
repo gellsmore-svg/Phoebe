@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:network",
+  "version": "1.0.0",
+  "technology": [
+    "dns",
+    "tcp",
+    "tls",
+    "filesystem"
+  ],
+  "rules": [
+    {
+      "id": "network.dns",
+      "version": "1.0.0",
+      "operations": [
+        "dns"
+      ],
+      "boundary": "DNS resolution",
+      "message": "The named resolution operation failed from the recorded vantage.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_dns"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://github.com/prometheus/blackbox_exporter"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "network.tcp",
+      "version": "1.0.0",
+      "operations": [
+        "tcp",
+        "unix"
+      ],
+      "boundary": "listener/connectivity",
+      "message": "The measured connection operation failed. Listener absence, routing and filtering remain candidates.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_connection"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://github.com/prometheus/blackbox_exporter"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "network.tls",
+      "version": "1.0.0",
+      "operations": [
+        "tls"
+      ],
+      "boundary": "TLS handshake/certificate",
+      "message": "The TLS operation or certificate-validity contract failed.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_tls"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3/library/ssl.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "network.storage",
+      "version": "1.0.0",
+      "operations": [
+        "filesystem"
+      ],
+      "boundary": "filesystem capacity/inodes",
+      "message": "The measured filesystem headroom contract failed.",
+      "required_predicates": [],
+      "next_checks": [
+        "collect_filesystem"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.kernel.org/doc/html/latest/filesystems/proc.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://docs.python.org/3/library/ssl.html",
+    "https://github.com/prometheus/blackbox_exporter",
+    "https://www.kernel.org/doc/html/latest/filesystems/proc.html"
+  ],
+  "licence": "project original"
+}

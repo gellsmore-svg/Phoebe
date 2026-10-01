@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:driver",
+  "version": "1.0.0",
+  "technology": [
+    "database_driver"
+  ],
+  "rules": [
+    {
+      "id": "driver.pool",
+      "version": "1.0.0",
+      "operations": [
+        "driver_checkout_wait",
+        "driver_checkout_timeout"
+      ],
+      "boundary": "application driver checkout",
+      "message": "Instrumented driver checkout evidence reports impairment before an operation is submitted.",
+      "required_predicates": [
+        "checkout_wait_over_budget",
+        "checkout_timeout_present"
+      ],
+      "next_checks": [
+        "collect_driver_checkout"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/connect/connection-options/connection-pools/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/connect/connection-options/connection-pools/"
+  ],
+  "licence": "project original"
+}
