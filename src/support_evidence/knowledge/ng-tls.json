@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-tls",
+  "service": "nginx",
+  "revision": "1",
+  "title": "TLS certificate and hostname boundaries",
+  "summary": "TLS handshakes depend on certificate trust, hostname selection and configured protocol support. Separate client-facing TLS from upstream TLS when locating a failed route.",
+  "tags": [
+    "tls",
+    "tls_expired",
+    "tls_hostname_mismatch",
+    "tls_verification_failed",
+    "nginx_http",
+    "nginx_bad_gateway",
+    "certificate",
+    "sni"
+  ],
+  "checks": [
+    "Run allowlisted TLS and route checks with the intended hostname."
+  ],
+  "limitations": "Client-facing success does not establish upstream TLS correctness.",
+  "applicability": "Nginx SSL module; deployment-specific trust and build",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_ssl_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "aaa5d0ab27cc9baaabf3c9562387cb785087393ed4b8c654b836b3a5341127a8"
+}

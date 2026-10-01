@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-buffer",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Buffering and temporary storage",
+  "summary": "Proxy buffering can spill responses to temporary files. Storage capacity, inodes and permissions can therefore affect proxy behavior alongside upstream performance.",
+  "tags": [
+    "buffering",
+    "temporary",
+    "files",
+    "storage",
+    "disk",
+    "inodes",
+    "permissions"
+  ],
+  "checks": [
+    "Collect capacity and inode headroom on the declared temporary filesystem."
+  ],
+  "limitations": "Filesystem health alone does not prove the proxy used that path.",
+  "applicability": "Nginx proxy module; deployment-specific buffering",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "2acefe13c8590a1db5e4f346fc2e1b2faf6016e55bd49092dbd8dcd632697671"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-status",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Optional status endpoint and coverage",
+  "summary": "stub_status is an optional build module exposing basic client counters. Missing, denied or malformed endpoints leave monitoring coverage unknown. Active includes idle waiting clients.",
+  "tags": [
+    "nginx_stub_status",
+    "nginx_status_unavailable",
+    "nginx_status_permission",
+    "nginx_status_malformed",
+    "nginx_status_threshold_missing",
+    "status"
+  ],
+  "checks": [
+    "Declare the endpoint and an explicit active-client threshold."
+  ],
+  "limitations": "This endpoint does not expose complete upstream health or worker occupancy.",
+  "applicability": "Open-source stub_status text format; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "f1a4b01c46fa919ab4c24a90624cc0046faf0719327c0a1d0d22629b9bc71d55"
+}

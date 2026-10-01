@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-timeout",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Upstream timeout boundaries",
+  "summary": "proxy_read_timeout bounds inactivity between successive reads, not whole-response duration. A 504 and an outer collector deadline are distinct observations.",
+  "tags": [
+    "nginx_gateway_timeout",
+    "operation_deadline",
+    "504",
+    "proxy_read_timeout",
+    "timeout"
+  ],
+  "checks": [
+    "Compare upstream response timing, proxy policy and the bounded route contract."
+  ],
+  "limitations": "Status alone cannot identify the active timeout directive.",
+  "applicability": "Nginx proxy module; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "6ecc958c25fe59c43ec04e5d3f1a0e9ac0c93d97edb1b2ab543495107fa40d05"
+}

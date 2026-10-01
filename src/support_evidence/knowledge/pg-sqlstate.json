@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-sqlstate",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Server-reported operation failures",
+  "summary": "Use SQLSTATE rather than localized text. 42501 denotes insufficient privilege, 42P01 missing relation, 55P03 unavailable lock, 57014 cancellation, 40P01 deadlock and 40001 serialization failure. Cancellation alone does not establish blocking or timeout.",
+  "tags": [
+    "postgresql_read",
+    "postgresql_locks",
+    "postgresql_permission",
+    "postgresql_fixture_missing",
+    "postgresql_lock_unavailable",
+    "postgresql_query_canceled",
+    "postgresql_deadlock",
+    "postgresql_serialization",
+    "42501",
+    "42P01",
+    "55P03",
+    "57014",
+    "40P01",
+    "40001"
+  ],
+  "checks": [
+    "Compare bounded fixture read and aggregate lock evidence."
+  ],
+  "limitations": "A read-only fixture cannot establish write or business correctness.",
+  "applicability": "SQLSTATE categories; PostgreSQL 18 reference",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "859aaa319dac8ef9380d5b78468475642b2fbca5608ab98a8ceef678fa9fb47d"
+}

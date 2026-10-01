@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-auth",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Authentication policy and database selection",
+  "summary": "Authentication policy depends on connection type, client address, database and role. Compare the declared route and identity against the matching policy before treating rejection as service-wide unavailability.",
+  "tags": [
+    "postgresql_authentication",
+    "postgresql_connect",
+    "postgresql_database_missing",
+    "authentication",
+    "tls",
+    "hba"
+  ],
+  "checks": [
+    "Compare connection from the affected namespace with approved policy metadata."
+  ],
+  "limitations": "This collector retains neither policy contents nor credential values.",
+  "applicability": "PostgreSQL 18 reference; capability-specific deployment review",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/auth-pg-hba-conf.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "de0bfb12642b33a7aaa617d14355c6326bdc301e0d3a64d3cd836bce9c8d4873"
+}

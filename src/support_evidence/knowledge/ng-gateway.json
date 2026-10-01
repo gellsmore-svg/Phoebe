@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-gateway",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Bad gateway and upstream alternatives",
+  "summary": "A failing proxy route can reflect upstream transport, TLS, routing or an upstream response. HTTP 502 alone does not identify which mechanism occurred.",
+  "tags": [
+    "nginx_bad_gateway",
+    "502",
+    "nginx_http",
+    "upstream",
+    "refusal",
+    "proxy"
+  ],
+  "checks": [
+    "Compare a separately allowlisted upstream contract from the proxy vantage."
+  ],
+  "limitations": "An external upstream PASS does not establish proxy-namespace connectivity.",
+  "applicability": "Nginx proxy module; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "fad732d5eb2233f0c7a16204bd527156b94fad01f0baa833cb0a27a4c5a4b424"
+}

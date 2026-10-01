@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-dns",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Upstream names and runtime resolution",
+  "summary": "Upstream address selection and resolver behavior depend on configuration, build and version. A hostname resolving externally may still fail in the proxy namespace.",
+  "tags": [
+    "nginx_bad_gateway",
+    "dns",
+    "resolver",
+    "upstream",
+    "routing"
+  ],
+  "checks": [
+    "Collect DNS and declared upstream contracts from the affected namespace."
+  ],
+  "limitations": "Do not apply rolling-doc features to older builds without capability evidence.",
+  "applicability": "Nginx upstream module; feature/version-specific",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "fdf671051b778bb49a95cff90d7e5925a49d904b48235b2500740dadd7a67d6e"
+}

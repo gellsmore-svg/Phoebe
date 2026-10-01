@@ -24,3 +24,5 @@ Database credentials are JSON objects held only in referenced environment variab
 `report --at TIMESTAMP` uses retained evidence at an explicit time. `export` writes a new self-contained file and refuses overwrite. `prune --before RECEIPT_TIMESTAMP` explicitly removes retained observations; export escalation bundles first. `health` reports quota, integrity and progress age; process heartbeats alone do not prove new evidence.
 
 The CLI has no repair command. All restart, configuration, credential and deployment changes require the operational approval process. Diagnostic labels never authorise actions.
+
+PostgreSQL/Nginx collectors, explicit thresholds, privileges and retrieved guidance are documented in [service modules](service-modules.md). Use `--rag` for source-grounded explanations and embedded offline replay.

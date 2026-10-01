@@ -1,0 +1,353 @@
+{
+  "tested_at": 1790894949.0459652,
+  "versions": {
+    "postgresql": "18",
+    "nginx": "1.28-alpine"
+  },
+  "actual_service_cases": 22,
+  "cases": [
+    {
+      "case": "pg-functional-control",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-authentication-rejected",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_connection_or_startup"
+        }
+      ],
+      "notes": "real driver authentication rejection; libpq may omit SQLSTATE",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-restricted-statistics",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "DENIED",
+          "predicate": "UNKNOWN",
+          "reason": "postgresql_statistics_visibility"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-monitoring-control",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-role-mismatch",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_role_mismatch"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-missing-declared-replica",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_standbys_missing"
+        }
+      ],
+      "notes": "declared replica absent in this primary-only fixture",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-headroom-contract-edge",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_headroom_threshold"
+        }
+      ],
+      "notes": "actual headroom against intentionally unattainable minimum; no exhaustion injected",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-xid-contract-edge",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_xid_age_threshold"
+        }
+      ],
+      "notes": "actual frozen-XID age against zero limit; no wraparound injected",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-connected-blocked-read",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_query_canceled"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-lock-deadline",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_lock_unavailable"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-observed-blocker",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_blocking_threshold"
+        },
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_activity_threshold"
+        }
+      ],
+      "notes": "real held table lock, blocked reader and idle transaction",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-denied-fixture-contract",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_permission"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "pg-missing-fixture",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "postgresql_fixture_missing"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-route-status-control",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-wrong-host",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "nginx_route_missing"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-functional-oracle",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "oracle_mismatch"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-status-permission",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "DENIED",
+          "predicate": "UNKNOWN",
+          "reason": "nginx_status_permission"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-malformed-status",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "ERROR",
+          "predicate": "UNKNOWN",
+          "reason": "nginx_status_malformed"
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-client-contract-edge",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "nginx_active_threshold"
+        }
+      ],
+      "notes": "actual client count includes the probe; no saturation injected",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-upstream-inactivity",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "nginx_gateway_timeout"
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-upstream-refusal",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "FAIL",
+          "reason": "nginx_bad_gateway"
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        },
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual disposable service observation",
+      "embedded_rag_replay": true
+    },
+    {
+      "case": "nginx-rejected-reload-old-route",
+      "passed": true,
+      "observed": [
+        {
+          "collector": "OK",
+          "predicate": "PASS",
+          "reason": null
+        }
+      ],
+      "notes": "actual invalid reload command rejected; previous route continues serving",
+      "embedded_rag_replay": true
+    }
+  ],
+  "existing_containers_preserved_and_owned_resources_removed": true,
+  "simulation_notes": "NULL replication, version rejection, SQLSTATE variants and masked statistics beyond ordinary denial use unit doubles; no replicated standby, exhaustion or wraparound was injected."
+}

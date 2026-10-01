@@ -2,14 +2,14 @@
   "schema_version": 1,
   "kind": "failure_package",
   "id": "package:postgresql",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "technology": [
     "postgresql"
   ],
   "rules": [
     {
       "id": "postgresql.pg_connection",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "operations": [
         "postgresql_connect"
       ],
@@ -31,11 +31,34 @@
         "positive": "FAIL",
         "negative": "PASS",
         "unknown": "UNKNOWN"
-      }
+      },
+      "exclude_reasons": [
+        "postgresql_authentication",
+        "postgresql_configuration_limit",
+        "postgresql_connection",
+        "postgresql_connection_or_startup",
+        "postgresql_connections_exhausted",
+        "postgresql_crash_shutdown",
+        "postgresql_database_missing",
+        "postgresql_deadlock",
+        "postgresql_disk_full",
+        "postgresql_fixture_contract",
+        "postgresql_fixture_missing",
+        "postgresql_lock_unavailable",
+        "postgresql_not_ready",
+        "postgresql_operation",
+        "postgresql_out_of_memory",
+        "postgresql_permission",
+        "postgresql_query_canceled",
+        "postgresql_read_only",
+        "postgresql_schema_mismatch",
+        "postgresql_serialization",
+        "postgresql_shutdown"
+      ]
     },
     {
       "id": "postgresql.pg_read",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "operations": [
         "postgresql_read"
       ],
@@ -57,10 +80,1017 @@
         "positive": "FAIL",
         "negative": "PASS",
         "unknown": "UNKNOWN"
+      },
+      "exclude_reasons": [
+        "postgresql_authentication",
+        "postgresql_configuration_limit",
+        "postgresql_connection",
+        "postgresql_connection_or_startup",
+        "postgresql_connections_exhausted",
+        "postgresql_crash_shutdown",
+        "postgresql_database_missing",
+        "postgresql_deadlock",
+        "postgresql_disk_full",
+        "postgresql_fixture_contract",
+        "postgresql_fixture_missing",
+        "postgresql_lock_unavailable",
+        "postgresql_not_ready",
+        "postgresql_operation",
+        "postgresql_out_of_memory",
+        "postgresql_permission",
+        "postgresql_query_canceled",
+        "postgresql_read_only",
+        "postgresql_schema_mismatch",
+        "postgresql_serialization",
+        "postgresql_shutdown"
+      ]
+    },
+    {
+      "id": "postgresql.authentication",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL rejected the declared authentication operation; inspect credential validity and authentication policy.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_authentication"
+        ]
+      },
+      "next_checks": [
+        "probe_connection"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.permission",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The declared PostgreSQL operation lacked required permission. Monitoring permission failures remain UNKNOWN.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_permission"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.fixture_missing",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The representative fixture relation was missing; broad database health remains unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_fixture_missing"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.schema_mismatch",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The declared operation encountered a schema mismatch.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_schema_mismatch"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.lock_unavailable",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported unavailable lock acquisition; this does not identify the blocking transaction.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_lock_unavailable"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.query_canceled",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported query cancellation; statement deadline, explicit cancellation and competing mechanisms remain possible.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_query_canceled"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.connections_exhausted",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported too many connections; application driver-pool capacity is a separate measurement.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_connections_exhausted"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_headroom"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.disk_full",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported disk-full failure; measure the relevant data/WAL/temp filesystem and inodes.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_disk_full"
+        ]
+      },
+      "next_checks": [
+        "collect_filesystem"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.out_of_memory",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported an out-of-memory failure; resource attribution needs additional evidence.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_out_of_memory"
+        ]
+      },
+      "next_checks": [
+        "collect_host_metrics"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.deadlock",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported a deadlock; participants and initiating cause are not retained.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_deadlock"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.serialization",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported serialization failure; a failed transaction does not establish service-wide failure.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_serialization"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.read_only",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL rejected a write in a read-only transaction; this collector cannot measure write availability.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_read_only"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_replication"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.database_missing",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported the requested database missing.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_database_missing"
+        ]
+      },
+      "next_checks": [
+        "probe_connection"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.shutdown",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported administrator shutdown.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_shutdown"
+        ]
+      },
+      "next_checks": [
+        "inspect_service_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.crash_shutdown",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported crash shutdown.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_crash_shutdown"
+        ]
+      },
+      "next_checks": [
+        "inspect_service_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.not_ready",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported that it cannot accept the requested connection now.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_not_ready"
+        ]
+      },
+      "next_checks": [
+        "inspect_service_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.configuration_limit",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported a configured resource limit.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_configuration_limit"
+        ]
+      },
+      "next_checks": [
+        "collect_host_metrics"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.connection",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "PostgreSQL reported a connection exception; network, TLS and lifecycle remain alternatives.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_connection"
+        ]
+      },
+      "next_checks": [
+        "probe_connection"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.connection_or_startup",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The driver connection failed without a retained SQLSTATE; authentication, TLS, routing and startup remain unresolved.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_connection_or_startup"
+        ]
+      },
+      "next_checks": [
+        "probe_connection"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.operation",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The PostgreSQL operation failed with no recognized specific signature.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_operation"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.fixture_contract",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_read"
+      ],
+      "boundary": "database representative operation",
+      "message": "The fixed representative read did not satisfy its declared row contract.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_fixture_contract"
+        ]
+      },
+      "next_checks": [
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.role_mismatch",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_role",
+        "postgresql_replication"
+      ],
+      "boundary": "PostgreSQL role contract",
+      "message": "The observed recovery role differs from the declared role.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_role_mismatch"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_replication"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/functions-admin.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.activity_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_activity"
+      ],
+      "boundary": "PostgreSQL activity contract",
+      "message": "An observed activity aggregate exceeded its explicit threshold.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_activity_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/monitoring-stats.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.blocking_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_locks"
+      ],
+      "boundary": "PostgreSQL blocking contract",
+      "message": "Observed blocked sessions exceeded the explicit threshold.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_blocking_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_activity"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/functions-info.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.headroom_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_headroom"
+      ],
+      "boundary": "PostgreSQL connection headroom",
+      "message": "Estimated ordinary connection headroom fell below its explicit minimum; role and driver limits remain unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_headroom_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_headroom"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/runtime-config-connection.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.standbys_missing",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_replication"
+      ],
+      "boundary": "PostgreSQL replication topology",
+      "message": "Fewer connected standbys were observed than declared.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_standbys_missing"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_replication"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/monitoring-stats.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.replay_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_replication"
+      ],
+      "boundary": "PostgreSQL replication backlog",
+      "message": "Observed WAL byte backlog exceeded its explicit threshold; idle timestamp age is not used.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_replay_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_replication"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/functions-admin.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.xid_age_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_vacuum"
+      ],
+      "boundary": "PostgreSQL transaction ID age",
+      "message": "Observed oldest database frozen-XID age exceeded the explicit threshold; maintenance is not executed.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_xid_age_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_postgresql_vacuum"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/routine-vacuuming.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.connection_signature",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_connect"
+      ],
+      "boundary": "database connection/authentication",
+      "message": "The authenticated PostgreSQL connection failed with a classified reason; inspect its retained SQLSTATE when available. Network, authentication, resource and lifecycle alternatives require discriminating checks.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_authentication",
+          "postgresql_configuration_limit",
+          "postgresql_connection",
+          "postgresql_connection_or_startup",
+          "postgresql_connections_exhausted",
+          "postgresql_crash_shutdown",
+          "postgresql_database_missing",
+          "postgresql_deadlock",
+          "postgresql_disk_full",
+          "postgresql_fixture_contract",
+          "postgresql_fixture_missing",
+          "postgresql_lock_unavailable",
+          "postgresql_not_ready",
+          "postgresql_operation",
+          "postgresql_out_of_memory",
+          "postgresql_permission",
+          "postgresql_query_canceled",
+          "postgresql_read_only",
+          "postgresql_schema_mismatch",
+          "postgresql_serialization",
+          "postgresql_shutdown"
+        ]
+      },
+      "next_checks": [
+        "probe_connection",
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "postgresql.diagnostic_signature",
+      "version": "1.1.0",
+      "operations": [
+        "postgresql_activity",
+        "postgresql_headroom",
+        "postgresql_locks",
+        "postgresql_replication",
+        "postgresql_role",
+        "postgresql_vacuum"
+      ],
+      "boundary": "PostgreSQL diagnostic operation",
+      "message": "The PostgreSQL diagnostic operation failed with a classified reason; aggregate health remains unmeasured. Inspect the retained SQLSTATE and compare a separately declared connection and fixture contract.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "postgresql_authentication",
+          "postgresql_configuration_limit",
+          "postgresql_connection",
+          "postgresql_connection_or_startup",
+          "postgresql_connections_exhausted",
+          "postgresql_crash_shutdown",
+          "postgresql_database_missing",
+          "postgresql_deadlock",
+          "postgresql_disk_full",
+          "postgresql_fixture_contract",
+          "postgresql_fixture_missing",
+          "postgresql_lock_unavailable",
+          "postgresql_not_ready",
+          "postgresql_operation",
+          "postgresql_out_of_memory",
+          "postgresql_permission",
+          "postgresql_query_canceled",
+          "postgresql_read_only",
+          "postgresql_schema_mismatch",
+          "postgresql_serialization",
+          "postgresql_shutdown"
+        ]
+      },
+      "next_checks": [
+        "probe_connection",
+        "probe_database_read"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
       }
     }
   ],
   "source_refs": [
+    "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+    "https://www.postgresql.org/docs/18/functions-admin.html",
+    "https://www.postgresql.org/docs/18/functions-info.html",
+    "https://www.postgresql.org/docs/18/monitoring-stats.html",
+    "https://www.postgresql.org/docs/18/routine-vacuuming.html",
+    "https://www.postgresql.org/docs/18/runtime-config-connection.html",
     "https://www.postgresql.org/docs/current/app-pg-isready.html",
     "https://www.postgresql.org/docs/current/runtime-config-client.html"
   ],

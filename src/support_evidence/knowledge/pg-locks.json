@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-locks",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Blocking and bounded lock inspection",
+  "summary": "pg_blocking_pids identifies lock blockers, including queue conflicts. Frequent calls can burden shared lock-manager state. Aggregate blocked-session counts separate measured blocking from generic canceled queries.",
+  "tags": [
+    "postgresql_locks",
+    "postgresql_blocking_threshold",
+    "postgresql_lock_scan_budget",
+    "blocking",
+    "lock_waiters"
+  ],
+  "checks": [
+    "Compare bounded blocked-session count with the canceled fixture read."
+  ],
+  "limitations": "The collector caps candidates and retains no PIDs or query text.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/functions-info.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "765309e3e67eaae4f0780a3dc6cfff0739434e12d341807fc950633747b65558"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-route",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Virtual hosts and functional routes",
+  "summary": "Listener, Host and URI determine the selected route. An IP-only check can reach another virtual server. Successful status without the application oracle leaves business correctness unmeasured.",
+  "tags": [
+    "nginx_http",
+    "nginx_route_missing",
+    "nginx_route_forbidden",
+    "oracle_mismatch",
+    "host",
+    "routing",
+    "404",
+    "403"
+  ],
+  "checks": [
+    "Repeat the declared hostname and path with an authoritative response oracle."
+  ],
+  "limitations": "Disk configuration parsing records intent, not active routing.",
+  "applicability": "Open-source Nginx routing; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/request_processing.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "ed23166376591cbc93cad525029e7ef1312f2ca66df85fe1f9152ace13fb1098"
+}

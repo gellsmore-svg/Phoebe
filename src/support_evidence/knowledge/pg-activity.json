@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-activity",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Activity coverage and long transactions",
+  "summary": "Other sessions can have masked state and timing fields. Disabled tracking and cached or delayed statistics also constrain interpretation. A zero visible count cannot establish absence across hidden sessions.",
+  "tags": [
+    "postgresql_activity",
+    "postgresql_activity_threshold",
+    "postgresql_activity_incomplete",
+    "masked_sessions",
+    "active_sessions",
+    "idle_transactions",
+    "oldest_transaction_seconds"
+  ],
+  "checks": [
+    "Check visibility and tracking before comparing explicit aggregate thresholds."
+  ],
+  "limitations": "One short transaction is a point sample, not continuous history.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/monitoring-stats.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "045b4a4e50a186dc3391dad132bd45205567a36f79f043250638626ed261e92b"
+}

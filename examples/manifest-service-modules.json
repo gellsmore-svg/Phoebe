@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "scope": "example-service-modules",
+  "agent_vantage": "local:host",
+  "allowed_targets": [
+    "http://localhost:8080/orders",
+    "http://localhost:8080/status",
+    "postgresql://127.0.0.1:5432"
+  ],
+  "allowed_addresses": {
+    "127.0.0.1": [
+      "127.0.0.1"
+    ],
+    "localhost": [
+      "127.0.0.1",
+      "::1"
+    ]
+  },
+  "allowed_paths": [],
+  "allowed_units": [],
+  "probes": [
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_connect",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_connect",
+      "predicate": "postgresql_connect",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {},
+      "credential_ref": "SUPPORT_PG"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_read",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_read",
+      "predicate": "postgresql_read",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "min_rows": 1,
+        "lock_timeout_ms": 500
+      },
+      "credential_ref": "SUPPORT_PG"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_role",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_role",
+      "predicate": "postgresql_role",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "role": "primary"
+      },
+      "credential_ref": "SUPPORT_PG_STATS"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_activity",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_activity",
+      "predicate": "postgresql_activity",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "max_idle_transactions": 0,
+        "max_transaction_seconds": 60
+      },
+      "credential_ref": "SUPPORT_PG_STATS"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_locks",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_locks",
+      "predicate": "postgresql_locks",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "max_blocked_sessions": 0
+      },
+      "credential_ref": "SUPPORT_PG_STATS"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_headroom",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_headroom",
+      "predicate": "postgresql_headroom",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "min_connection_headroom": 5
+      },
+      "credential_ref": "SUPPORT_PG_STATS"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:postgresql_vacuum",
+      "subject": "database:postgresql",
+      "instance_id": null,
+      "operation": "postgresql_vacuum",
+      "predicate": "postgresql_vacuum",
+      "target": "postgresql://127.0.0.1:5432",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "127.0.0.1:5432",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "max_xid_age": 150000000
+      },
+      "credential_ref": "SUPPORT_PG_STATS"
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:nginx_http",
+      "subject": "proxy:nginx",
+      "instance_id": null,
+      "operation": "nginx_http",
+      "predicate": "nginx_http",
+      "target": "http://localhost:8080/orders",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "localhost:8080/orders",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "status": 200,
+        "json_key": "ok",
+        "json_value": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:nginx_stub_status",
+      "subject": "proxy:nginx",
+      "instance_id": null,
+      "operation": "nginx_stub_status",
+      "predicate": "nginx_stub_status",
+      "target": "http://localhost:8080/status",
+      "vantage": "local:host",
+      "namespace": "current",
+      "route": "localhost:8080/status",
+      "timeout": 5,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "max_active_connections": 100
+      }
+    }
+  ],
+  "entities": [],
+  "assertions": [],
+  "impact_contract": "Example GET /orders ok=true and explicit PostgreSQL fixture/monitoring contracts; adapt before use"
+}

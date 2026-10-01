@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-replication-null",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Replication visibility and missing metrics",
+  "summary": "Replication statistics describe connected senders. Lag durations can be NULL after an idle standby catches up. Declare expected replicas; missing or NULL evidence must not become zero backlog.",
+  "tags": [
+    "postgresql_replication",
+    "postgresql_replication_unknown",
+    "postgresql_standbys_missing",
+    "null",
+    "lag"
+  ],
+  "checks": [
+    "Check recovery role, expected sender count and known replay positions."
+  ],
+  "limitations": "Disconnected replicas require declared topology; observations cover connected senders.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/monitoring-stats.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "38ae9477f11aeb93a5318c3e7520a279312522dca5d57efdc6bcd4aefa72dafc"
+}

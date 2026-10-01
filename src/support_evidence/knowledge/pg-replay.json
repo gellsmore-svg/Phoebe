@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-replay",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Recovery role and WAL byte backlog",
+  "summary": "Recovery role distinguishes primary and standby. On a standby, receive/replay positions measure local replay backlog, not distance from an unreachable primary. NULL positions provide insufficient evidence.",
+  "tags": [
+    "postgresql_role",
+    "postgresql_role_mismatch",
+    "postgresql_replication",
+    "postgresql_replay_threshold",
+    "replay_backlog_bytes",
+    "standby",
+    "primary"
+  ],
+  "checks": [
+    "Declare expected role and backlog threshold; compare independent primary evidence."
+  ],
+  "limitations": "A role match alone does not prove promotion readiness or write availability.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on primary 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/functions-admin.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "407722da9dffdf21148454644e597b0586e32c658edf8a6528354acc07d254d3"
+}

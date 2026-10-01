@@ -6,8 +6,9 @@ import socket
 from pathlib import Path
 from urllib.parse import urlsplit
 from .model import validate
+from .modules.contracts import validate_service_contract, SERVICE_OPERATIONS
 
-OPERATIONS={"dns","tcp","unix","tls","http","systemd","systemd_user","filesystem","host","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}
+OPERATIONS=SERVICE_OPERATIONS | {"dns","tcp","unix","tls","http","systemd","systemd_user","filesystem","host","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}
 FORBIDDEN=(ipaddress.ip_network("169.254.0.0/16"),ipaddress.ip_network("fe80::/10"),ipaddress.ip_network("0.0.0.0/8"),ipaddress.ip_network("100.100.100.200/32"))
 
 def read_json(path, limit=8*1024*1024):
@@ -26,6 +27,7 @@ def validate_manifest(m):
         if p["id"] in ids:raise ValueError("duplicate probe ID")
         ids.add(p["id"])
         if p["operation"] not in OPERATIONS:raise ValueError("unregistered operation")
+        validate_service_contract(p)
         if p["vantage"]!=m["agent_vantage"]:raise ValueError("probe vantage requires execution by that agent")
         if p["namespace"]!="current":raise ValueError("unsupported network namespace")
         if p["target"] not in m.get("allowed_targets",[]):raise ValueError("target not explicitly allowlisted")

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-xid",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Vacuum and transaction ID age",
+  "summary": "Vacuum supports tuple reuse, visibility and transaction-ID freeze safety. Database frozen-XID age is a useful explicit contract; dead-tuple estimates alone do not establish bloat or a required remediation.",
+  "tags": [
+    "postgresql_vacuum",
+    "postgresql_xid_age_threshold",
+    "oldest_xid_age",
+    "vacuum",
+    "freeze",
+    "wraparound"
+  ],
+  "checks": [
+    "Compare frozen-XID age with a chosen limit and approved maintenance evidence."
+  ],
+  "limitations": "This read-only check neither vacuums nor diagnoses every table.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/routine-vacuuming.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "f67671145bf44cfec3a648febbe95049ff04287d9ccab084ffec7900a235e856"
+}

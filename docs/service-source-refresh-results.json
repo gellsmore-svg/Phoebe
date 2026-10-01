@@ -1,0 +1,130 @@
+{
+  "corpus_integrity": "267879e53b0b7cba348bccdd76d946fdfba4c2f878ef4cdb22add8fae414a81b",
+  "kind": "source_refresh_audit",
+  "retrieved_at": 1790894243.2639694,
+  "schema_version": 1,
+  "sources": [
+    {
+      "review_required": true,
+      "source_sha256": "647f86b6f2e06527a469cdf73f5f78ef94f719f108c265e7d700a184d18d5bf5",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/control.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "713b42178d5f70f392fae4c427808e5ab35864943fc3ccf8236b00d942bf9347",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_core_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "7fedc5023cc3a7b7a64060e692ce3ecf20ae990d1e2cb517816a57a0b4c52da5",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "d5b57d46a1f3c04770dde072d4d5f472e390280fcc80a1e748ff661aebe7b2b7",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "141c2ab950e3fe3ab29d1bdd1eecc65d0abab66ac9bcc2c6862d23402784ee99",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_ssl_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "5508402add1f45a3a55e2f99e419d4eb5ca225577a7e1b7130b3eec2ab2f0bfe",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "ac8a1feca39a22dc0d5d93d2d0bf2abdca7351d7b3b282f8fc376f9677fc9b41",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "1b4bc98d040ed6e029053dcf2b4773400100c625cbf77f3e1bef67c3c61c1a7b",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/http/request_processing.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "e9deb9698bfaf32855878be12e0816e60d81ce7a8139f34e0221390d28efdd98",
+      "status": "fetched",
+      "url": "https://nginx.org/en/docs/ngx_core_module.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "11b321d57d9adb0aa6fbf2e7da51c36d35c4c9eeebb47e5a731c87f730fa033d",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/auth-pg-hba-conf.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "c28dbb67e01f08afb36b368b491847f52bfc1e7bf1ff87e9ebe91b269c295ecf",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "c33f6572453ae53f5eec72aa97e9d3de506760fd9de074c03dfeb7618418790f",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/functions-admin.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "98b62219435d063cbfa727d58ad8be380ce289e148d3979a3687b689e646edb1",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/functions-info.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "88d5596e19c945f3d24a2cde84e6681af92fe2a61a9a5858cda30437b0f5b6d9",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/libpq-ssl.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "16f5d160ed15a512560df829ba8c4fe3164e5bfa1c1b4ee56847217a52582a3d",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/monitoring-stats.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "4b37beac59cb870ae39967127a026c03c35626f9228c8c7df1814eca203ad3d9",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/predefined-roles.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "568c632ab04dc2eb6681dc125a146297771d3fe3c46a1b844678f3e0db6870cf",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/routine-vacuuming.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "c898282005582247c9a2fdd0aea1878cd3f95cb857e25206e1efe590ce73c0d5",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/runtime-config-client.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "f29d3345299d1acb6eb57f4b2653b46407d30c1cfa7405ec4f48640e436db1d4",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/runtime-config-connection.html"
+    },
+    {
+      "review_required": true,
+      "source_sha256": "ab73173d7120fe3b3a50c48ffc75d461bb14cff4b167ad047f47cad19b520d80",
+      "status": "fetched",
+      "url": "https://www.postgresql.org/docs/18/view-pg-replication-slots.html"
+    }
+  ],
+  "summaries_changed": false,
+  "verification": "actual supervised official HTTPS fetches; reviewed summaries unchanged"
+}

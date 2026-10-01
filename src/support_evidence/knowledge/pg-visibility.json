@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-visibility",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Monitoring visibility",
+  "summary": "pg_read_all_stats exposes statistics otherwise restricted to ordinary users. Prefer only necessary monitoring grants. Denied diagnostic visibility leaves service state unknown.",
+  "tags": [
+    "postgresql_statistics_visibility",
+    "postgresql_monitoring_permission",
+    "statistics_visible",
+    "denied",
+    "privilege"
+  ],
+  "checks": [
+    "Use approved statistics credentials and rerun activity or locks."
+  ],
+  "limitations": "No automatic privilege grant is executed.",
+  "applicability": "PostgreSQL 14\u201318 collectors; live verified on 18",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/predefined-roles.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "ce232b52b762a9ff0883223bc7ef7375d24ad7732089dc000687dd57beadaaab"
+}

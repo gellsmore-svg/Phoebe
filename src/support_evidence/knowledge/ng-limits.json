@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-limits",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Rate limits and overload responses",
+  "summary": "Request limiting can reject or delay traffic according to configured rates and bursts. Rejection status is configurable, so 503 or 429 cannot uniquely prove rate limiting.",
+  "tags": [
+    "nginx_rate_limited",
+    "nginx_service_unavailable",
+    "429",
+    "503",
+    "limits",
+    "burst",
+    "overload"
+  ],
+  "checks": [
+    "Compare approved limiting metadata, request timing and upstream route evidence."
+  ],
+  "limitations": "No production load generation or limit-policy changes are executed.",
+  "applicability": "Nginx request-limit module; deployment-specific policy",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "6c8f9d8d7de042a6728d0f6a731e0f5ab96df32c176249ed331bf5fabd55abb5"
+}

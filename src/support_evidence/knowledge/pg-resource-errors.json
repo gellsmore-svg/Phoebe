@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-resource-errors",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Resource and startup signatures",
+  "summary": "53300 indicates excessive connections; 53100 disk full; 53200 insufficient memory; 57P03 cannot connect now. Connection errors may lack a driver SQLSTATE, leaving authentication, TLS, routing and startup unresolved.",
+  "tags": [
+    "postgresql_connect",
+    "postgresql_connections_exhausted",
+    "postgresql_disk_full",
+    "postgresql_out_of_memory",
+    "postgresql_not_ready",
+    "postgresql_connection_or_startup",
+    "53300",
+    "53100",
+    "53200",
+    "57P03"
+  ],
+  "checks": [
+    "Check declared listener, ordinary-slot headroom and relevant storage."
+  ],
+  "limitations": "A server error does not identify the initiating cause.",
+  "applicability": "SQLSTATE categories; PostgreSQL 18 reference",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "11a8c6ea5e19e0b96c1e6e5d408e785753b78f6cdc43c2ed1cd805ae529ac927"
+}

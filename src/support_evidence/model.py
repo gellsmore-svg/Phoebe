@@ -11,6 +11,7 @@ from jsonschema import Draft202012Validator
 SCHEMA = json.loads(files("support_evidence").joinpath("schema.json").read_text())
 VALIDATOR = Draft202012Validator(SCHEMA)
 SAFE_VALUE_KEYS = {"status_code", "duration_ms", "reason", "free_bytes", "free_inodes", "load1", "available_bytes", "rows_present", "oracle_match", "valid_days", "state", "restart_count", "pid", "sample", "value", "threshold", "checkout_wait_ms", "checkout_timeouts", "connections", "addresses_count", "exit_code", "service_result", "uptime_ticks", "bytes", "error_code"}
+SAFE_VALUE_KEYS |= {'masked_sessions', 'idle_transactions', 'blocked_sessions', 'server_version_num', 'standbys', 'requests', 'active_sessions', 'accepts', 'statistics_visible', 'reading', 'oldest_transaction_seconds', 'waiting', 'in_recovery', 'oldest_xid_age', 'lock_waiters', 'handled', 'active_connections', 'max_connections', 'connection_headroom', 'writing', 'reserved_connections', 'replay_backlog_bytes'}
 SAFE_ATTR_KEYS = {"host.name", "service.name", "service.namespace", "service.instance.id", "service.version", "process.pid", "process.start_ticks", "boot_id", "listener", "unit", "schema_url", "maturity", "build_id", "owner", "version_source"}
 SECRET = re.compile(r"(?i)(password|passwd|secret|token|authorization|private.?key|credential|api.?key)")
 UNSAFE_TEXT = re.compile(r"(?i)(bearer\s+\S+|[a-z][a-z0-9+.-]*://[^\s/]*@|(?:password|token|secret|api_key)\s*[=:]\s*\S+|-----BEGIN .*PRIVATE KEY)")

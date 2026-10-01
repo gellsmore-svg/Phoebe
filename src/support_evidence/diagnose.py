@@ -16,6 +16,13 @@ NEXT_CHECKS={
  "probe_database_read":"Run the registered bounded representative fixture read with monitoring credentials.",
  "collect_driver_checkout":"Import bounded instrumented application-driver checkout wait/timeouts; do not use server connection counts.",
  "collect_database_activity":"Import approved aggregate query/lock activity without query text.",
+ "collect_postgresql_activity":"Run postgresql_activity or postgresql_locks with explicit thresholds and complete statistics visibility.",
+ "collect_postgresql_headroom":"Run postgresql_headroom with an explicit ordinary-slot minimum; application pool capacity remains separate.",
+ "collect_postgresql_replication":"Run postgresql_replication with a declared role, replica count and byte backlog threshold.",
+ "collect_postgresql_vacuum":"Measure database frozen-XID age with postgresql_vacuum; maintenance remains operator work.",
+ "collect_nginx_status":"Run nginx_stub_status on a declared endpoint with an explicit active-client threshold.",
+ "verify_nginx_route":"Repeat nginx_http using the declared hostname, path, scheme and functional oracle.",
+ "verify_nginx_lifecycle":"Correlate approved reload outcome and worker lifecycle observations with route checks; file parsing records intent only.",
 }
 
 def packages():
@@ -24,12 +31,20 @@ def packages():
         if path.name.endswith(".json"):result.append(validate(json.loads(path.read_text())))
     return result
 
-def diagnose(records,at,impact="unspecified operation",rule_packages=None,changes=None):
+def signature(rule, observation):
+    value = observation["value"]
+    return value.get("reason") not in rule.get("exclude_reasons", []) and all(value.get(key) in choices for key, choices in rule.get("match", {}).items())
+
+def diagnose(records,at,impact="unspecified operation",rule_packages=None,changes=None,engine_version=None):
+    version = engine_version or __version__
+    if version not in {"0.1.0", "0.2.0"}:raise ValueError("unsupported diagnosis engine")
+    legacy = version == "0.1.0"
     if len(records)>5000:raise ValueError("incident work budget exceeded")
     for r in records:validate(r)
     pkgs=packages() if rule_packages is None else rule_packages
     for p in pkgs:validate(p)
     rules=[r for p in pkgs for r in p["rules"]]
+    if legacy and any(r.get("match") or r.get("exclude_reasons") for r in rules):raise ValueError("signature packages require the current engine")
     for r in rules:
         if set(r["next_checks"])-set(NEXT_CHECKS):raise ValueError("unregistered rule action")
     observations=sorted([r for r in records if r["kind"]=="observation"],key=lambda r:(r["event_at"],r["id"]))
@@ -41,22 +56,29 @@ def diagnose(records,at,impact="unspecified operation",rule_packages=None,change
         else:eligible.append(o)
     # Event-time precedence resists out-of-order delivery; simultaneous conflicts survive.
     latest={}
-    for o in eligible:
+    for o in (eligible if legacy else observations):
+        if not legacy and freshness(o,at)=="clock_skew":continue
         key=scope(o)+(o["dependence_group"],)
         latest[key]=max(latest.get(key,0),o["event_at"])
-    current=[o for o in eligible if latest[scope(o)+(o["dependence_group"],)]-o["event_at"]<=1]
+    barriers = {}
+    if not legacy:
+        for o in observations:
+            if freshness(o,at) != "clock_skew" and (o["collector_status"] != "OK" or o["predicate_status"] == "UNKNOWN"):
+                key=scope(o)+(o["dependence_group"],)
+                barriers[key]=max(barriers.get(key,0),o["event_at"])
+    current=[o for o in eligible if latest[scope(o)+(o["dependence_group"],)]-o["event_at"]<=1 and (legacy or o["event_at"] >= barriers.get(scope(o)+(o["dependence_group"],),0))]
     findings=[];consumed=set()
     for rule in rules:
         for o in current:
-            if o["operation"] not in rule["operations"] or o["predicate_status"]!="FAIL" or (rule["id"],scope(o)) in consumed:continue
+            if o["operation"] not in rule["operations"] or o["predicate_status"]!="FAIL" or (rule["id"],scope(o)) in consumed or not legacy and not signature(rule,o):continue
             consumed.add((rule["id"],scope(o)))
             same=[x for x in current if scope(x)==scope(o) and abs(x["event_at"]-o["event_at"])<=2]
-            support=[x for x in same if x["predicate_status"]=="FAIL"]
+            support=[x for x in same if x["predicate_status"]=="FAIL" and (legacy or signature(rule,x))]
             contradictory=[x for x in same if x["predicate_status"]=="PASS"]
             compatible=[x for x in current if all(x.get(k)==o.get(k) for k in ["subject","instance_id","route","vantage"]) and abs(x["event_at"]-o["event_at"])<=2]
-            missing=[pred for pred in rule["required_predicates"] if not any(x["predicate"]==pred and x["predicate_status"]=="FAIL" for x in compatible)]
+            missing=[pred for pred in rule["required_predicates"] if not any(x["predicate"]==pred and x["predicate_status"]=="FAIL" and (legacy or signature(rule,x)) for x in compatible)]
             if rule["required_predicates"]:
-                support=[x for x in compatible if x["predicate"] in rule["required_predicates"] and x["predicate_status"]=="FAIL"] or support
+                support=[x for x in compatible if x["predicate"] in rule["required_predicates"] and x["predicate_status"]=="FAIL" and (legacy or signature(rule,x))] or support
                 contradictory += [x for x in compatible if x["predicate"] in rule["required_predicates"] and x["predicate_status"]=="PASS"]
             groups={x["dependence_group"] for x in support}
             direct=all(x["reliability"]=="direct" and x["retention"]=="retained" for x in support)
@@ -68,7 +90,7 @@ def diagnose(records,at,impact="unspecified operation",rule_packages=None,change
         if o["predicate_status"]=="FAIL" and o["id"] not in covered:unknowns.append(o["id"]+":unsupported_failure_signature; abstain")
     health={}
     for o in observations:health[o["provenance"]["method"]]=health.get(o["provenance"]["method"],[])+[{"evidence_id":o["id"],"collector_status":o["collector_status"],"freshness":freshness(o,at)}]
-    report={"schema_version":1,"kind":"incident","id":"incident:"+digest([at,impact,sorted(r["id"] for r in records)])[:24],"impact_contract":impact,"at":at,"interval":[min([o["event_at"] for o in observations]+[at]),at],"graph_revision":graph["revision"],"rule_versions":{p["id"]:p["version"] for p in pkgs},"findings":sorted(findings,key=lambda f:(f["subject"],f["operation"],f["vantage"],f["id"])),"passed":sorted(o["id"] for o in current if o["predicate_status"]=="PASS"),"unknowns":sorted(unknowns)+["Business correctness unknown without an authoritative oracle.","Failure location does not establish an initiating cause."] ,"changes":changes or [],"history_matches":[],"resolution":"unverified","engine_version":__version__,"collector_health":health,"permitted_actions":["registered read-only checks within manifest policy"],"requires_approval":["all remediation; no remediation executor is installed"],"coverage":{"observations":len(observations),"fresh_applicable":len(current),"history":"disabled","source_index":"disabled","llm":"disabled","unobserved":"unknown"},"topology":graph,"evidence_ids":sorted(r["id"] for r in records)}
+    report={"schema_version":1,"kind":"incident","id":"incident:"+digest([at,impact,sorted(r["id"] for r in records)])[:24],"impact_contract":impact,"at":at,"interval":[min([o["event_at"] for o in observations]+[at]),at],"graph_revision":graph["revision"],"rule_versions":{p["id"]:p["version"] for p in pkgs},"findings":sorted(findings,key=lambda f:(f["subject"],f["operation"],f["vantage"],f["id"])),"passed":sorted(o["id"] for o in current if o["predicate_status"]=="PASS"),"unknowns":sorted(unknowns)+["Business correctness unknown without an authoritative oracle.","Failure location does not establish an initiating cause."] ,"changes":changes or [],"history_matches":[],"resolution":"unverified","engine_version":version,"collector_health":health,"permitted_actions":["registered read-only checks within manifest policy"],"requires_approval":["all remediation; no remediation executor is installed"],"coverage":{"observations":len(observations),"fresh_applicable":len(current),"history":"disabled","source_index":"disabled","llm":"disabled","unobserved":"unknown"},"topology":graph,"evidence_ids":sorted(r["id"] for r in records)}
     return validate(report)
 
 def render(report,records):
@@ -77,7 +99,9 @@ def render(report,records):
     for f in report["findings"]:
         lines += ["Boundary: "+f["boundary"]+" ["+f["assessment"]+"]", "  Scope: "+" / ".join(f[k] for k in ["subject","operation","route","vantage"]),"  "+f["message"],"  Rule: "+f["rule_id"]+"@"+f["rule_version"],"  Support: "+", ".join(f["supporting"]),"  Contradictions: "+(", ".join(f["contradicting"]) or "none measured"),"  Unknown: "+"; ".join(f["unknowns"])]
         for i in f["supporting"]+f["contradicting"]:
-            o=index[i];lines.append("  Evidence "+i+": "+o["collector_status"]+"/"+o["predicate_status"]+" reason="+o["value"].get("reason","predicate_measured")+" method="+o["provenance"]["method"]+" event="+str(o["event_at"]))
+            o=index[i]
+            if report["engine_version"]!="0.1.0" and o["value"].get("error_code"):lines.append("  SQLSTATE/error code: "+str(o["value"]["error_code"]))
+            lines.append("  Evidence "+i+": "+o["collector_status"]+"/"+o["predicate_status"]+" reason="+o["value"].get("reason","predicate_measured")+" method="+o["provenance"]["method"]+" event="+str(o["event_at"]))
         for a in f["next_checks"]:lines.append("  Next ["+a+"]: "+NEXT_CHECKS[a])
     for i in report["passed"]:
         o=index[i];lines.append("PASS "+i+": "+" / ".join(o[k] for k in ["subject","operation","predicate","route","vantage"])+" at "+str(o["event_at"]))

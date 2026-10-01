@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-headroom",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Ordinary connection headroom",
+  "summary": "Reserved and superuser-reserved slots reduce ordinary admission capacity. A privileged probe can connect while ordinary clients cannot. Server admission headroom does not measure an application driver pool.",
+  "tags": [
+    "postgresql_headroom",
+    "postgresql_headroom_threshold",
+    "postgresql_connections_exhausted",
+    "connection_headroom",
+    "reserved_connections"
+  ],
+  "checks": [
+    "Compare ordinary-slot estimate with explicit minimum and application checkout evidence."
+  ],
+  "limitations": "Estimate includes the probe connection; role limits and races remain unmeasured.",
+  "applicability": "PostgreSQL 14\u201318 collectors; reserved setting capability checked",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/runtime-config-connection.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "ee5115a06a953390bc17099d64fe57d6f3c217e26b18d1995bea8e3cfcd72128"
+}

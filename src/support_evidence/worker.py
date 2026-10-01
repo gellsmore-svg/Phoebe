@@ -2,7 +2,6 @@
 import hashlib
 import http.client
 import json
-import math
 import os
 import socket
 import ssl
@@ -11,6 +10,8 @@ import sys
 import time
 from .model import canonical, observation
 from .policy import resolve, allowed_path
+from .modules import postgresql, nginx
+from .modules.common import CollectionStatus
 
 class TargetFailure(Exception):
     def __init__(self,reason):self.reason=reason
@@ -26,7 +27,9 @@ def network(probe,m):
     host,port,path,scheme,ip=resolve(probe["target"],m)
     op=probe["operation"];budget=max(0.01,probe.get("_deadline",time.monotonic()+probe["timeout"])-time.monotonic()-.1)
     if op=="dns":return {"addresses_count":1}
-    if op.startswith("mongodb") or op.startswith("postgresql"):
+    if op in postgresql.OPERATIONS:
+        return postgresql.collect(probe,m,host,port,ip,secret(probe))
+    if op.startswith("mongodb"):
         return database(probe,m,host,port,ip,budget)
     s=socket.create_connection((ip,port),timeout=budget)
     try:
@@ -39,15 +42,18 @@ def network(probe,m):
                 days=(ssl.cert_time_to_seconds(s.getpeercert()["notAfter"])-time.time())/86400
                 if days<probe["expected"].get("min_valid_days",0):raise TargetFailure("tls_expiry_budget")
                 return {"valid_days":round(days,2)}
-        if op=="http":
+        if op in {"http", "nginx_http", "nginx_stub_status"}:
             # Manual pinned socket prevents a second DNS lookup. Redirects are never followed.
             conn=http.client.HTTPConnection(host,port,timeout=budget);conn.sock=s
             conn.request("GET",path,headers={"Host":host+(":"+str(port) if port not in (80,443) else ""),"User-Agent":"support-evidence/0.1","Connection":"close"})
             response=conn.getresponse(); body=response.read(65537)
-            if len(body)>65536:raise TargetFailure("http_response_over_budget")
+            if len(body)>65536:
+                if op=="nginx_stub_status":raise CollectionStatus("ERROR","nginx_status_over_budget")
+                raise TargetFailure("http_response_over_budget")
+            if op=="nginx_stub_status":return nginx.status_result(response.status,body,probe["expected"])
             value={"status_code":response.status}
             if response.status!=probe["expected"].get("status",200):
-                value["reason"]="http_status"
+                value["reason"]=nginx.route_reason(response.status) if op=="nginx_http" else "http_status"
                 return value,False
             expected=probe["expected"]
             match=True
@@ -79,23 +85,12 @@ def database(probe,m,host,port,ip,budget):
         except OperationFailure as e:
             raise TargetFailure("authentication" if e.code in {13,18} else "database_operation") from None
         except PyMongoError:raise TargetFailure("database_deadline_or_connection") from None
-    import psycopg
-    budget=max(.01,probe.get("_deadline",time.monotonic()+budget)-time.monotonic()-.2)
-    try:
-        with psycopg.connect(host=host,hostaddr=ip,port=port,user=creds["username"],password=creds["password"],dbname=creds.get("database","support"),connect_timeout=max(1,math.ceil(budget)),options="-c default_transaction_read_only=on -c statement_timeout="+str(int(budget*1000)),sslmode="verify-full" if creds.get("ca_file") else "disable",**({"sslrootcert":str(allowed_path(creds["ca_file"],m))} if creds.get("ca_file") else {})) as conn:
-            if op=="postgresql_connect":return {}
-            query_budget=max(1,int((probe.get("_deadline",time.monotonic()+budget)-time.monotonic()-.2)*1000))
-            conn.execute("SELECT set_config('statement_timeout', %s, true)",(str(query_budget),))
-            count=conn.execute("SELECT count(*) FROM public.support_probe WHERE id = 1").fetchone()[0]
-            return {"rows_present":count>0},count>0
-    except psycopg.Error as e:
-        raise TargetFailure("authentication" if e.sqlstate and e.sqlstate.startswith("28") else "database_operation") from None
 
 def execute(probe,m):
     start=time.monotonic();probe=dict(probe);probe["_deadline"]=start+probe["timeout"]-.1;value={};status="PASS";collector="OK"
     try:
         op=probe["operation"]
-        if op in {"dns","tcp","tls","http","mongodb_ping","mongodb_read","postgresql_connect","postgresql_read"}:result=network(probe,m)
+        if op in {"dns","tcp","tls","http","mongodb_ping","mongodb_read"} | postgresql.OPERATIONS | nginx.OPERATIONS:result=network(probe,m)
         elif op=="unix":
             path=allowed_path(probe["target"],m)
             with socket.socket(socket.AF_UNIX,socket.SOCK_STREAM) as s:s.settimeout(probe["timeout"]-0.1);s.connect(str(path))
@@ -119,15 +114,20 @@ def execute(probe,m):
         else:raise ValueError("unsupported_operation")
         if isinstance(result,tuple):value,ok=result;status="PASS" if ok else "FAIL"
         else:value=result
+    except CollectionStatus as e:collector=e.collector;status="UNKNOWN";value=e.value
     except PermissionError:collector="DENIED";status="UNKNOWN";value={"reason":"policy_or_permission_denied"}
     except FileNotFoundError:
         if probe["operation"]=="unix":status="FAIL";value={"reason":"operation_connection"}
         else:collector="UNAVAILABLE";status="UNKNOWN";value={"reason":"prerequisite_unavailable"}
     except ImportError:collector="UNAVAILABLE";status="UNKNOWN";value={"reason":"prerequisite_unavailable"}
-    except TargetFailure as e:status="FAIL";value={"reason":e.reason}
-    except socket.gaierror:status="FAIL";value={"reason":"dns_resolution"}
-    except (socket.timeout,TimeoutError):status="FAIL";value={"reason":"operation_deadline"}
-    except (ConnectionError,OSError):status="FAIL";value={"reason":"operation_connection"}
+    except TargetFailure as e:
+        status="UNKNOWN" if probe["operation"]=="nginx_stub_status" else "FAIL";collector="UNAVAILABLE" if status=="UNKNOWN" else "OK";value={"reason":e.reason}
+    except socket.gaierror:
+        status="UNKNOWN" if probe["operation"]=="nginx_stub_status" else "FAIL";collector="UNAVAILABLE" if status=="UNKNOWN" else "OK";value={"reason":"dns_resolution"}
+    except (socket.timeout,TimeoutError):
+        status="UNKNOWN" if probe["operation"]=="nginx_stub_status" else "FAIL";collector="TIMEOUT" if status=="UNKNOWN" else "OK";value={"reason":"operation_deadline"}
+    except (ConnectionError,OSError):
+        status="UNKNOWN" if probe["operation"]=="nginx_stub_status" else "FAIL";collector="UNAVAILABLE" if status=="UNKNOWN" else "OK";value={"reason":"operation_connection"}
     except Exception:collector="ERROR";status="UNKNOWN";value={"reason":"collector_exception"}
     value["duration_ms"]=round((time.monotonic()-start)*1000,3)
     return observation(probe,status,collector,value)

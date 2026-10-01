@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-capacity",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Workers and file-descriptor limits",
+  "summary": "worker_connections covers client and upstream connections and is also constrained by open-file limits. Active clients alone cannot establish free worker capacity.",
+  "tags": [
+    "nginx_active_threshold",
+    "capacity",
+    "worker_connections",
+    "descriptors",
+    "saturation",
+    "connections"
+  ],
+  "checks": [
+    "Correlate status with approved worker and descriptor aggregates."
+  ],
+  "limitations": "Worker-limit inspection is guidance; no arbitrary configuration command is executed.",
+  "applicability": "Nginx core limits; version/build review required",
+  "source": {
+    "url": "https://nginx.org/en/docs/ngx_core_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "d468088d77c2416a3667236ae70c90ad3a6b45d38f28f8599333c36f43c0c566"
+}

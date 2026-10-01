@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-wal-slots",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "WAL retention and replication slots",
+  "summary": "Replication slots can retain WAL while consumers lag or disconnect. Inspect slot state and retention alongside the relevant WAL filesystem; replication lag and storage pressure require separate evidence.",
+  "tags": [
+    "wal",
+    "slots",
+    "retention",
+    "disk_full",
+    "replication",
+    "storage"
+  ],
+  "checks": [
+    "Import approved slot aggregates and collect WAL filesystem bytes and inodes."
+  ],
+  "limitations": "Slot diagnostics are catalogue guidance; no slot-management executor is installed.",
+  "applicability": "PostgreSQL 18 slot schema; review other versions",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/view-pg-replication-slots.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "8f898246b7eee92dc067bbb3daab885a83c7deb7ab0c4380c627fb467e9cf835"
+}

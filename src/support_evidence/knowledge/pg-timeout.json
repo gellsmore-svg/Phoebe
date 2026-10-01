@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-timeout",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "Statement and lock deadlines",
+  "summary": "Statement and lock deadlines cover different boundaries. A shorter declared lock deadline can discriminate failed acquisition; statement cancellation alone admits slow execution and explicit cancellation as alternatives.",
+  "tags": [
+    "postgresql_query_canceled",
+    "postgresql_lock_unavailable",
+    "lock_timeout_ms",
+    "statement",
+    "timeout"
+  ],
+  "checks": [
+    "Compare a bounded fixture read with explicit lock timeout and lock aggregates."
+  ],
+  "limitations": "The outer worker deadline includes startup and connection time.",
+  "applicability": "PostgreSQL 18 reference; typed collector deadlines",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/runtime-config-client.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "a8be386948c588739565db733328084b0018b4007ea35b120e6393e5e05ecf1d"
+}

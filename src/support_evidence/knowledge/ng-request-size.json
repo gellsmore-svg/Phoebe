@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-request-size",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Request and body-size contracts",
+  "summary": "Request-size and client timeout policy can reject traffic before proxying. A small GET probe does not measure upload, large-header or streaming contracts.",
+  "tags": [
+    "nginx_body_limit",
+    "413",
+    "414",
+    "408",
+    "request",
+    "body",
+    "headers",
+    "timeout"
+  ],
+  "checks": [
+    "Use approved representative contract evidence for the affected request shape."
+  ],
+  "limitations": "This module performs bounded GETs; upload failures remain unmeasured.",
+  "applicability": "Nginx HTTP core; feature/version-specific",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_core_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "5b570777ac7baf4f1ea508571d66cb48f82994469c3704d17c90e73e403277af"
+}

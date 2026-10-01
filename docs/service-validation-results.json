@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "verified_at": 1790895340.9275582,
+  "automated_tests": {
+    "passed": 157,
+    "command": ".venv/bin/python -m pytest -q"
+  },
+  "service_integration": {
+    "passed": 22,
+    "reference": "service-module-results.json"
+  },
+  "broader_regression": {
+    "passed": 20,
+    "reference": "service-regression-results.json",
+    "note": "includes one synthetic topology fixture; remaining scenarios use actual service probes or controls"
+  },
+  "official_sources": {
+    "fetched": 20,
+    "reference": "service-source-refresh-results.json"
+  },
+  "offline_install_retrieval_replay_and_removal": {
+    "passed": true,
+    "reference": "service-offline-install-results.json"
+  },
+  "wheel_sha256": "188f203904900f245f7d547b13185739bd327f1ccca7e9c945fbff7fe7f07a88",
+  "legacy_bundles": "all five genuine 0.1.0 examples replay exactly",
+  "production_and_replicated_standby_checks": "pending"
+}

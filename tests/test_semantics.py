@@ -136,7 +136,9 @@ def test_rule_positive_negative_unknown_fixtures(probe,package):
     for rule in package["rules"]:
         for status in ["PASS","FAIL","UNKNOWN"]:
             p=copy.deepcopy(probe);p["operation"]=rule["operations"][0]
-            obs=observation(p,status,now=100)
-            fs=diagnose([obs],100,rule_packages=[package])["findings"]
+            value={key:choices[0] for key,choices in rule.get("match",{}).items()}
+            obs=observation(p,status,value=value,now=100)
+            isolated=copy.deepcopy(package);isolated["rules"]=[rule]
+            fs=diagnose([obs],100,rule_packages=[isolated])["findings"]
             assert bool(fs)==(status=="FAIL")
             if fs:assert fs[0]["rule_id"]==rule["id"]

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-retry",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Retries and upstream groups",
+  "summary": "Upstream groups distribute requests across peers. A successful request to one peer does not prove every route or backend healthy. Retry behavior can hide individual failures.",
+  "tags": [
+    "nginx_http",
+    "upstream",
+    "groups",
+    "retries",
+    "peers",
+    "intermittent"
+  ],
+  "checks": [
+    "Compare declared peer contracts over compatible instances and intervals."
+  ],
+  "limitations": "One point sample cannot establish fleet availability or safe retry semantics.",
+  "applicability": "Nginx upstream groups; deployment-specific policy",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "047da516287752b108916ee0b6f452a5b33d8e04a696e72085e39f28a3542b47"
+}

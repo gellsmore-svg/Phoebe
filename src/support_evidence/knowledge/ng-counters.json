@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-counters",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Client thresholds and historical counters",
+  "summary": "Accepted and handled counts are cumulative. A historical gap does not prove present connection loss; interval comparisons require compatible instance identity and reset handling.",
+  "tags": [
+    "nginx_active_threshold",
+    "active_connections",
+    "accepts",
+    "handled",
+    "waiting",
+    "capacity",
+    "counters",
+    "resets"
+  ],
+  "checks": [
+    "Compare the explicit active-client contract with independent resource evidence."
+  ],
+  "limitations": "No current-drop finding is generated from a single counter sample.",
+  "applicability": "Open-source stub_status text format; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "716640e001b229f31cf3b9f8011c38f3dc50323a43737d0c63706b80bcbb42b3"
+}

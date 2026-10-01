@@ -1,0 +1,10 @@
+{
+  "offline_install": true,
+  "offline_replay": true,
+  "removal": true,
+  "reference": "Python/Linux local wheelhouse",
+  "network_required": false,
+  "store": "no retained user store deleted",
+  "version": "0.2.0",
+  "bundled_rag_retrieval_and_replay": true
+}

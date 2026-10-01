@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ng-reload",
+  "service": "nginx",
+  "revision": "1",
+  "title": "Reload failures and active configuration",
+  "summary": "A failed reload can leave the previous configuration serving traffic. Relate change intent, reload outcome, worker lifecycle and measured routes instead of treating changed files as active-state proof.",
+  "tags": [
+    "nginx_http",
+    "reload",
+    "lifecycle",
+    "configuration",
+    "drift",
+    "old",
+    "workers"
+  ],
+  "checks": [
+    "Correlate approved reload outcome and worker observations with route checks."
+  ],
+  "limitations": "Automatic reload and production configuration validation are not installed.",
+  "applicability": "Nginx master/worker lifecycle; live verified on 1.28",
+  "source": {
+    "url": "https://nginx.org/en/docs/control.html",
+    "documentation_version": "rolling documentation; features vary by build",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "a150e5991987b7cfb07e1b6cb2e71f8906e559241990b5e33f8a77862f10175e"
+}

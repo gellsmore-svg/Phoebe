@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:nginx",
+  "version": "1.1.0",
+  "technology": [
+    "nginx"
+  ],
+  "rules": [
+    {
+      "id": "nginx.bad_gateway",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The Nginx route returned 502 against its contract; refusal, DNS, TLS, routing and upstream-generated errors remain alternatives.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_bad_gateway"
+        ]
+      },
+      "next_checks": [
+        "probe_upstream_http"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.gateway_timeout",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The Nginx route returned 504 against its contract; this does not uniquely identify a timeout directive or upstream cause.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_gateway_timeout"
+        ]
+      },
+      "next_checks": [
+        "probe_upstream_http"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.service_unavailable",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The route returned 503 against its contract; upstream responses and configured limits need discrimination.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_service_unavailable"
+        ]
+      },
+      "next_checks": [
+        "collect_nginx_status"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.rate_limited",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The route returned 429 against its contract; verify the configured response and limiting policy.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_rate_limited"
+        ]
+      },
+      "next_checks": [
+        "verify_nginx_route"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.route_forbidden",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The route returned 403 against its contract; authorization and upstream-generated denial remain alternatives.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_route_forbidden"
+        ]
+      },
+      "next_checks": [
+        "verify_nginx_route"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/request_processing.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.route_missing",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The route returned 404 against its contract; host, URI mapping and upstream behavior remain alternatives.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_route_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_nginx_route"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/request_processing.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.body_limit",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The route returned 413 against its contract; request-size policy needs separate evidence.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_body_limit"
+        ]
+      },
+      "next_checks": [
+        "verify_nginx_route"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_core_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.oracle_mismatch",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The Nginx route failed its supplied functional oracle despite the expected status.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "oracle_mismatch"
+        ]
+      },
+      "next_checks": [
+        "verify_nginx_route"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/request_processing.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.active_threshold",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_stub_status"
+      ],
+      "boundary": "Nginx active-client contract",
+      "message": "Observed active-client count exceeded its threshold; worker occupancy and current connection loss remain unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "nginx_active_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_nginx_status"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "nginx.route_failure",
+      "version": "1.1.0",
+      "operations": [
+        "nginx_http"
+      ],
+      "boundary": "Nginx route/functional contract",
+      "message": "The declared Nginx route failed its contract; no specific initiating cause is established.",
+      "required_predicates": [],
+      "next_checks": [
+        "probe_connection",
+        "probe_upstream_http"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      },
+      "exclude_reasons": [
+        "nginx_bad_gateway",
+        "nginx_gateway_timeout",
+        "nginx_service_unavailable",
+        "nginx_rate_limited",
+        "nginx_route_forbidden",
+        "nginx_route_missing",
+        "nginx_body_limit",
+        "oracle_mismatch",
+        "nginx_active_threshold"
+      ]
+    }
+  ],
+  "source_refs": [
+    "https://nginx.org/en/docs/http/ngx_http_core_module.html",
+    "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html",
+    "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
+    "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html",
+    "https://nginx.org/en/docs/http/request_processing.html"
+  ],
+  "licence": "original project package; official documentation referenced, not copied"
+}

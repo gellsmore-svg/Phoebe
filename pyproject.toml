@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "support-evidence"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local, evidence-scoped operational diagnosis over existing monitoring"
 requires-python = ">=3.11"
 dependencies = ["jsonschema>=4.23,<5"]
@@ -20,7 +20,7 @@ support-evidence = "support_evidence.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-support_evidence = ["packages/*.json", "schema.json"]
+support_evidence = ["packages/*.json", "knowledge/*.json", "schema.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

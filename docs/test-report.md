@@ -19,3 +19,7 @@ Existing monitoring baseline: Blackbox Exporter v0.28.0 correctly reported failu
 Localization evaluation: top-1 measured-boundary hit 16/16 and top-k expected boundary-set recall 16/16 on positive harness cases; controls are excluded. These coarse labels describe tested predicates, not initiating root causes or held-out production accuracy. Traceability checks pass for all reports. Unknown signatures abstain in unit tests, but a heterogeneous abstention rate and operator success remain unmeasured. No initiating cause is asserted by current templates; general false causal-attribution accuracy is unmeasured. Per-case `diagnosis_ms` includes report export and replay-validation I/O, while the separate 1,000-record benchmark measures pure diagnosis. Counts and caveats are retained in localization-metrics.json.
 
 Run: `.venv/bin/python -m pytest -q`; `harness/run.py`; `harness/systemd.py`; `harness/benchmark.py`; `harness/offline_install.py`. Per-case check durations and event timestamps are retained in example bundles and .harness results. Acceptance.md lists pending gates.
+
+## Service modules in 0.2.0
+
+[Final service validation](service-validation-results.json) records 157 passing automated tests, 22 PostgreSQL/Nginx scenarios, the broader 20-case harness, 20 official source fetches and offline installation/retrieval/replay/removal. [Coverage and limits](service-modules.md) distinguish real faults, threshold edge cases and unit doubles.

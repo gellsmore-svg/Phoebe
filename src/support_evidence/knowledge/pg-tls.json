@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:pg-tls",
+  "service": "postgresql",
+  "revision": "1",
+  "title": "PostgreSQL TLS verification",
+  "summary": "libpq verify-full checks certificate trust and the declared hostname. A listener accepting TCP does not establish that the database connection satisfies its TLS contract. Compare trust, hostname and server policy before attributing rejection to authentication.",
+  "tags": [
+    "postgresql_connect",
+    "postgresql_connection_or_startup",
+    "tls",
+    "ca_file",
+    "certificate",
+    "hostname",
+    "verification"
+  ],
+  "checks": [
+    "Rerun postgresql_connect with the declared hostname and explicitly allowlisted ca_file."
+  ],
+  "limitations": "The driver may omit SQLSTATE; certificate contents and credential values are not retained.",
+  "applicability": "libpq verified TLS; PostgreSQL 18 reference",
+  "source": {
+    "url": "https://www.postgresql.org/docs/18/libpq-ssl.html",
+    "documentation_version": "18",
+    "verified_at": "2026-10-01",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "b855fe8c4888615889ddbcd6e6db49d135d0f238d99c18c2f5db7041616f0127"
+}
