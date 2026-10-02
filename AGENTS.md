@@ -11,3 +11,5 @@ Never persist credentials, raw response bodies, database values, environment dum
 Keep claim -> evidence -> graph revision -> method -> versioned rule inspectable.
 Do not claim systemd integration from Compose or describe simulations as real injected faults.
 Run meaningful tests before committing. Preserve research and disclose pending acceptance gates.
+
+Module integration: `.venv/bin/python harness/service_modules.py` and `.venv/bin/python harness/docker_venv_modules.py`; offline packaging: `.venv/bin/python harness/offline_install.py` after preparing the wheelhouse. For documentation changes, verify local links, CLI examples and version-specific claims; keep historical measurements dated. Current guides are indexed in docs/README.md.

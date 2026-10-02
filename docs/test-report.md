@@ -1,6 +1,28 @@
 # Test and performance report
 
-Executed on 1 October 2026 as cello. Source and actual machine-readable results accompany this report. Retained examples contain only safe metadata and original rule packages, not fixture passwords, response bodies or database values.
+## Current recorded validation: 0.3.0 (2 October 2026)
+
+[Docker/venv validation](docker-venv-validation-results.json) records 217 passing automated tests, 25 actual disposable cases, 34/34 official source fetches and offline wheel installation, an installed venv probe, four-family retrieval, old/enriched replay and uninstall. Existing containers were preserved and owned containers cleaned; commands/files used cello (UID 1000). The [module guide](docker-venv-modules.md) distinguishes static metadata, real fault injection, threshold edges and unknown coverage.
+
+[PostgreSQL/Nginx validation](service-validation-results.json) retains the separate 0.2.0 run: 157 automated tests, 22 service cases, 20 broader regression cases, 20 source fetches and offline packaging checks. Counts from different versions/runs are not added, and the original performance/localization measurements below have not been rerun as 0.3.0 RAG benchmarks. Production, public/remote paths, replicated standby, remote/rootless Docker deployment and venv native imports/ABI remain unmeasured.
+
+Current reproduction commands, run as cello from the checkout:
+
+```bash
+.venv/bin/python -m pytest -q
+.venv/bin/python harness/run.py
+.venv/bin/python harness/service_modules.py
+.venv/bin/python harness/docker_venv_modules.py
+.venv/bin/python harness/systemd.py
+.venv/bin/python harness/benchmark.py
+.venv/bin/python harness/offline_install.py
+```
+
+Integration harnesses inject faults only into uniquely owned disposable fixtures. Offline installation requires a prepared local wheelhouse; see [operator setup](operator-guide.md). Source audits contact the fixed official inventory and use a new receipt filename. [Acceptance](acceptance.md) retains unfinished broader release gates.
+
+## Initial implementation measurements (1 October 2026)
+
+Historical baseline below was executed on 1 October 2026 as cello. Source and actual machine-readable results accompany this report. Retained examples contain only safe metadata and original rule packages, not fixture passwords, response bodies or database values.
 
 78 automated pytest cases passed in 14.03 seconds. Coverage includes versioned schemas, immutable store/quota rollback/corruption, entity revisions/PID reuse, topology views, freshness and out-of-order observations, scope/contradictions, driver evidence requirements, unknown signatures, exact replay, deadline/process-group termination/output caps, hostile target syntax/rebinding, log injection/secret redaction, real TCP/UNIX/HTTP/TLS probes and valid/expired/hostname-mismatched certificates. Rule fixtures include PASS/FAIL/UNKNOWN for every bundled rule package; held-out route, oracle, TLS and simultaneous-fault variants extend those fixtures.
 
@@ -12,7 +34,7 @@ Final Docker cleanup succeeded: True. Existing container names remained present:
 
 Predeclared 1,000-observation benchmark: 0.787 seconds diagnosis, 38.74 MiB peak RSS, 870,200 bytes retained bundle, 10 failing scopes. Budgets were <2 seconds, <128 MiB and <8 MiB. Replay was identical. Hardware: AMD Ryzen 7 5800H with Radeon Graphics, 16 logical CPUs, Python 3.12.3. This measures the CLI workload, not continuous agent overhead or fleet scalability.
 
-Offline wheelhouse installation in a fresh temporary venv, exact incident replay and package uninstall passed without network access; disposable venv removed. Runtime and development dependency versions are pinned in requirements-runtime.lock and requirements-dev.lock. Packaging wheel and wheelhouse are under dist/; the wheelhouse contains platform-specific rpds-py for this Linux/Python 3.12 environment.
+Offline wheelhouse installation in a fresh temporary venv, exact incident replay and package uninstall passed without network access; disposable venv removed. The initial run retained dependency snapshots in requirements-runtime.lock and requirements-dev.lock. These describe reference inputs, not a complete 0.3.0 runtime lock; current project metadata adds packaging for venv checks. Packaging wheel and wheelhouse are under dist/; the wheelhouse contains platform-specific rpds-py for this Linux/Python 3.12 environment.
 
 Existing monitoring baseline: Blackbox Exporter v0.28.0 correctly reported failure on the same disposable wrong-port target (True). Its raw Prometheus output is retained separately. This confirms that basic failure detection already exists; incremental portable evidence/report fields are demonstrated, while a statistically meaningful matched-case comparison and operator success study are pending.
 

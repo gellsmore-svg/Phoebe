@@ -1,6 +1,6 @@
 # Acceptance status
 
-The working initial implementation meets the local deterministic vertical slice. It is not a claim that every acceptance gate of the broader research brief is finished.
+The current 0.3.0 implementation extends the local deterministic vertical slice with PostgreSQL, Nginx, Docker, static Python venv checks and offline reviewed-card guidance. It is not a claim that every acceptance gate of the broader research brief is finished.
 
 | Gate | Status and retained evidence |
 |---|---|
@@ -18,7 +18,7 @@ The working initial implementation meets the local deterministic vertical slice.
 |Installation/removal/offline/replay|Passed fresh disposable venv offline wheelhouse installation, replay, uninstall; Linux/Python reference environment. Other platforms/installers remain pending.|
 |Existing-tool comparison establishes incremental value|Blackbox Exporter wrong-port control demonstrates existing failure detection; report retains scope/evidence/next checks/offline replay. Broad matched-case comparison, Coroot and unfamiliar-operator benefit remain pending. Design stays an adapter/report layer.|
 
-Other limitations: safe Nginx subset, no automatic complete identity reconciliation or verified absence rules, no automatic stale last-valid graph cache after store corruption, no collector heartbeat service/reserved emergency queue, no continuous source indexing, forecasts/history, distributed security or approved remediation. These are recorded in coverage.md and roadmap.md.
+Other limitations: safe Nginx subset, no automatic complete identity reconciliation or verified absence rules, no automatic stale last-valid graph cache after store corruption, no collector heartbeat service/reserved emergency queue, no continuous source indexing, forecasts/history, distributed security or approved remediation. These are recorded in [coverage](coverage.md) and [roadmap](roadmap.md). Offline documentation retrieval is implemented separately from continuous source indexing and live LLM explanation.
 
 Research prompt explicitly allows pending operator studies and unavailable comparisons to be reported honestly. No vendor benchmark, MTTR improvement, user success percentage, probability calibration, exact source-line cause or production readiness is fabricated.
 

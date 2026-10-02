@@ -38,3 +38,7 @@ A–F vectors retain the provided research rubric, not vendor benchmarking. G is
 |15|Closure cycle B|Review preserved receipts, bundle replay, current wheel/source identity, privilege/coverage docs and cleanup. Vectors unchanged; no new material simplification/high-impact category. Remaining release gates explicitly carried into acceptance.md.|
 
 The implemented-scope review is stable after the two closure cycles. This does not declare universal architecture convergence or production acceptance: the full brief's pending gates remain open. Reopen immediately after a new failed fixture, real incident, operator study or platform/collector change. The finite review budget ends here with visible limits rather than inventing self-scored certainty.
+
+## Documentation maintenance — 2026-10-02
+
+Aligned the repository overview, operator/architecture/schema/security/coverage guides and roadmap with committed 0.3.0 behavior. Added the documentation index, shared knowledge/replay guide and implemented version history. Historical 0.1.0/0.2.0 test and performance claims retain their original scope; current validation is linked separately. This is documentation maintenance, not another independent experiment or extension of the earlier 15-pass review budget.

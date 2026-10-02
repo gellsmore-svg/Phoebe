@@ -28,3 +28,7 @@ Commercial names checked against primary pages: [Datadog Bits Investigation](htt
 Web retrieval of Datadog returned unsupported Markdown; IBM and systemd pages failed. Alternate direct upstream retrieval is tracked in source-ledger.json. No inaccessible content is represented as reproduced behaviour. Public documentation establishes capabilities, not their effectiveness for this workload.
 
 Decision (engineering inference): ship a bounded interchange/store/diagnostic renderer with existing monitoring adapters. Direct DNS/TCP/TLS/HTTP and fixture DB checks fill missing operation/vantage information when no backend exists. Retain metadata and predicates, not a new telemetry warehouse. A controlled Blackbox Exporter comparison tests incremental scoping and retention; Coroot and unfamiliar-operator comparisons remain explicit acceptance items. Reopen this decision if operator benefit is not demonstrated.
+
+## Later module documentation provenance
+
+The initial research above remains dated 1 October. PostgreSQL/Nginx 0.2.0 introduced 26 original official-source cards; Docker/venv 0.3.0 added 19, yielding 45 cards from 34 URLs. Each bundled card retains its own verification date, applicability, original summary and source/hash. [Knowledge and replay](knowledge.md) describes that separate reviewed inventory; [recorded 0.3.0 receipts](docker-venv-validation-results.json) show 34/34 fetched sources. Source availability, documented mechanisms and observed service failures remain separate claims; this does not add a vendor or production benchmark.

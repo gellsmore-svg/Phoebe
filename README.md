@@ -1,58 +1,73 @@
 # Phoebe — Support Evidence
 
-Phoebe follows the biblical-name convention used by the sibling repositories.
+[Phoebe](https://github.com/gellsmore-svg/Phoebe) is a local CLI for evidence-scoped operational diagnosis. It collects explicitly allowed read-only checks, imports monitoring exports, identifies measured failing boundaries and exports incidents that replay offline. Version **0.3.0** includes PostgreSQL, Nginx, Docker and Python venv modules, plus optional source-grounded retrieval and deterministic generation.
 
-A local CLI that gives an unfamiliar engineer a measured failing boundary, retained evidence and a bounded next check. It imports existing monitoring exports and performs explicitly allowlisted read-only probes. Diagnosis needs no LLM, source index, telemetry backend or graph database.
-
-Created from the two supplied supportability briefs, retained in [docs/baseline](docs/baseline). This is an initial working implementation. [Acceptance status](docs/acceptance.md) distinguishes passed checks from pending release gates.
+Runtime conclusions come from scoped observations. Retrieved documentation supplies alternatives and next checks; it does not establish an initiating cause. The core needs no telemetry backend, graph database, vector service or LLM account.
 
 ## Quickstart
 
-Run as your ordinary Linux user (cello here):
+From a checkout, run as your ordinary Linux user (`cello` in this workspace). Python 3.11 or newer is required; the recorded reference environment is Linux/WSL with Python 3.12.
 
 ```bash
-cd /mnt/c/Users/cello/support-evidence
 python3 -m venv .venv
 .venv/bin/pip install -e '.[dev,databases]'
-.venv/bin/python -m pytest -q
-.venv/bin/support-evidence --store /tmp/support-evidence-demo.sqlite discover
-.venv/bin/support-evidence --store /tmp/support-evidence-demo.sqlite health
+.venv/bin/support-evidence --version
+.venv/bin/support-evidence replay examples/incident-docker-module.json
+.venv/bin/support-evidence replay examples/incident-venv-module.json --json
 ```
 
-Discovery is read-only and records bounded process/listener/systemd inventory. It does not automatically probe discovered addresses. Copy [the manifest](examples/manifest.json), review destinations, predicates, vantage, budgets and monitoring accounts, then run:
+These retained examples replay without live Docker, a target venv, database credentials or network access. Core installation uses `pip install -e .`; database collectors additionally need the `databases` extra. The `dev` extra supplies test/build dependencies. See the [operator guide](docs/operator-guide.md) for collection and escalation.
+
+## Supported checks
+
+| Family | Measured contracts | Guide |
+|---|---|---|
+| PostgreSQL | Connection, fixed fixture read, role, activity, blocking, connection headroom, replication backlog and frozen-XID age | [PostgreSQL/Nginx modules](docs/service-modules.md) |
+| Nginx | Declared HTTP route/oracle and optional stub_status active-client threshold | [PostgreSQL/Nginx modules](docs/service-modules.md) |
+| Docker | Approved local Engine socket, exact-ID container state, configured health and memory/PID headroom | [Docker/venv modules](docs/docker-venv-modules.md) |
+| Python venv | Static layout/version intent, isolation setting, script paths and recursive dependency metadata | [Docker/venv modules](docs/docker-venv-modules.md) |
+| Network, host and services | DNS/TCP/UNIX/TLS/HTTP, capacity/inodes, load/available memory and named system/user-systemd state | [Coverage](docs/coverage.md) |
+| MongoDB and monitoring | Authenticated ping/fixed fixture read; Prometheus, Monitoring Plugins and OTLP JSON snapshots | [Operator guide](docs/operator-guide.md) |
+
+Docker checks issue fixed GETs; they never run container commands. Venv checks never execute target Python, pip, imports, activation or path hooks. A static metadata PASS does not establish runtime import/ABI compatibility. Missing, denied, stale and unsupported evidence remain explicit. See [coverage limits](docs/coverage.md) and [security and privileges](docs/security.md).
+
+## Capture and retrieve guidance
+
+Choose a manifest example: [base contracts](examples/manifest.json), [PostgreSQL/Nginx](examples/manifest-service-modules.json), or [Docker/venv](examples/manifest-docker-venv-modules.json). Copy it to `my-manifest.json` and review targets, addresses, paths, thresholds, identities and the actual execution vantage. Database monitoring accounts and fixture tables must already exist; checks create neither.
 
 ```bash
-.venv/bin/support-evidence --store ./example.sqlite check ./my-manifest.json --export ./incident.json
-.venv/bin/support-evidence replay ./incident.json
+.venv/bin/support-evidence --store ./evidence.sqlite check ./my-manifest.json --rag --export ./incident.json
 .venv/bin/support-evidence replay ./incident.json --json
+.venv/bin/support-evidence knowledge search docker docker_unhealthy --json
+.venv/bin/support-evidence knowledge search venv venv_dependencies_missing --json
 ```
 
-The sample manifest is a contract example, not an assertion that those ports belong to your applications. No fixture database is created by a check. Mongo reads only `support_probe` with `_id=1`; PostgreSQL executes only the registered fixture count. The database extras and reviewed monitoring credentials are required for those probes.
+Exports require a new filename. `--rag` adds a separate knowledge context to text/JSON and embeds reviewed cards in the incident bundle. Current retrieval uses 45 original cards from 34 official sources across four families; searches and enriched replay work offline. [Knowledge and replay](docs/knowledge.md) explains versions, output shapes, source audits and guidance limits.
 
-CLI exit codes: 0 no supported failure (check coverage), 1 supported failing predicate, 3 inconclusive/validation/collection failure. A zero status does not establish business correctness or health of unmeasured paths. Reports always preserve route, operation, vantage and timestamp.
+For `check`, `report` and `diagnose`, exit 0 means no supported failure with fresh applicable evidence, 1 means at least one strong/moderate failing boundary, and 3 means inconclusive or an input/policy/storage failure. Replay success returns 0 even when the retained incident contains failures. Read coverage and unknowns before interpreting a result as health.
 
-## Reproducible verification
+## Validation and development
+
+The recorded 0.3.0 validation passed **217 automated tests**, **25 actual disposable Docker/venv cases**, **34/34 source fetches**, and offline installation, an installed venv probe, search, replay and removal. Earlier version-specific validation records remain available; these counts describe different runs and are not summed. See the [test report](docs/test-report.md), [results](docs/docker-venv-validation-results.json) and [pending acceptance gates](docs/acceptance.md).
 
 ```bash
-.venv/bin/python harness/run.py
-.venv/bin/python harness/systemd.py
-.venv/bin/python harness/benchmark.py
+.venv/bin/python -m pytest -q
+.venv/bin/python harness/service_modules.py
+.venv/bin/python harness/docker_venv_modules.py
 ```
 
-Docker harness creates a unique network and temporary containers, seeded fixture databases, proxy and an independent probe namespace; cleanup runs in `finally`. No existing containers are selected for mutation. The separate systemd harness uses a uniquely named transient user-manager unit and cleans it up. Results appear under `.harness/`; checked-in redacted examples are under `examples/`.
+Integration harnesses create uniquely named owned fixtures, mutate only those fixtures and clean up containers. They perform real fault injection into disposable resources. The broader stack, user-systemd and performance harnesses are documented in the [test report](docs/test-report.md). Follow [contribution rules](AGENTS.md); commands and writes in this workspace run as cello.
 
-See [operator guide](docs/operator-guide.md), [architecture](docs/architecture.md), [schema reference](docs/schema-reference.md), [plugin guide](docs/plugin-guide.md), [security](docs/security.md), [coverage limits](docs/coverage.md), [recovery](docs/recovery.md), [research](docs/research.md), [review log](docs/review-log.md) and [test report](docs/test-report.md).
-
-A retained example can be replayed immediately:
+After building the wheel and preparing `dist/wheelhouse`, offline installation is:
 
 ```bash
-.venv/bin/support-evidence replay examples/incident-mongo-operation.json
+pip install --no-index --find-links dist/wheelhouse support-evidence==0.3.0
 ```
 
-Offline core installation is available with `pip install --no-index --find-links dist/wheelhouse support-evidence==0.3.0`. The supplied wheelhouse targets Linux/Python 3.12; rebuild dependency wheels for another platform. Removal uses `pip uninstall support-evidence` and preserves separately owned incident bundles/stores.
+Build artifacts are local and ignored by Git. A fresh clone needs a prepared wheelhouse; the validated wheelhouse targets Linux/Python 3.12. See the [operator guide](docs/operator-guide.md) for build steps and dependency snapshot limits. `pip uninstall support-evidence` preserves separately owned stores and incident bundles.
 
-GitHub repository: [gellsmore-svg/Phoebe](https://github.com/gellsmore-svg/Phoebe). The Python package and CLI remain `support-evidence`; the local checkout remains `/mnt/c/Users/cello/support-evidence`. Commits use a repository-only `cello <cello@localhost>` identity. File-writing and validation commands run as cello. Linux filesystem mode enforcement should be used for sensitive operational stores; this checkout is on Windows DrvFS.
+## Documentation
 
-PostgreSQL and Nginx have explicit bounded support modules with classified failure signatures, monitoring visibility checks and offline retrieval from 26 original cards grounded in official documentation. Use `support-evidence check examples/manifest-service-modules.json --rag --export incident.json` after adjusting the example policy and credentials. See [service modules and RAG](docs/service-modules.md) for operations, privileges, failure coverage and replay guarantees. [Actual service-module results](docs/service-module-results.json) record 22 disposable scenarios; production and replicated-standby coverage remain pending.
+The [documentation index](docs/README.md) links operator, architecture, schema, security, module, retrieval, validation and research material. [Version history](CHANGELOG.md) records the implemented package versions. The two supplied supportability briefs remain verbatim under [docs/baseline](docs/baseline).
 
-Docker and Python venv support is available in 0.3.0: four fixed local Engine API checks and four static environment checks, with recursive failure guidance and offline RAG. See the [module guide](docs/docker-venv-modules.md), [failure review](docs/docker-venv-design-review.md), [manifest example](examples/manifest-docker-venv-modules.json) and [actual validation results](docs/docker-venv-validation-results.json). Docker and venv incident examples include self-contained guidance; earlier incident versions still replay exactly.
+The Python package and command are `support-evidence`. This workspace checkout is `/mnt/c/Users/cello/support-evidence`; the GitHub name follows the biblical-name convention used by sibling repositories. Store sensitive operational data on a Linux filesystem with effective private permissions; Windows DrvFS can report broad modes.
