@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-markers",
+  "service": "venv",
+  "revision": "1",
+  "title": "Target markers and extra activation",
+  "summary": "Dependency markers depend on the target environment. Python-version and extra markers can be evaluated from declared static metadata; platform and implementation markers require target facts absent from this collector.",
+  "tags": [
+    "venv_dependencies",
+    "venv_marker_environment_unknown",
+    "venv_dependency_scope_unknown",
+    "markers",
+    "extras"
+  ],
+  "checks": [
+    "Use the target cfg Python version for supported markers and recursively propagate requested extras.",
+    "Preserve unknown for platform/implementation markers or direct URL requirements rather than use collector defaults."
+  ],
+  "limitations": "The target interpreter is never queried; unavailable target facts are not borrowed from the collector.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://packaging.python.org/en/latest/specifications/dependency-specifiers/",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "00088ce86d5429fa0fea6158513b1c05f0f82e3163a36fe1a8a215661816ecb4"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-memory",
+  "service": "docker",
+  "revision": "1",
+  "title": "Memory pressure and recorded OOM",
+  "summary": "Container resource limits and observed usage can establish a headroom breach. Engine OOMKilled records an OOM-associated lifecycle state; it does not establish the initiating allocation or full host pressure history.",
+  "tags": [
+    "docker_resources",
+    "docker_oom_recorded",
+    "docker_resource_threshold",
+    "memory",
+    "oom"
+  ],
+  "checks": [
+    "Compare configured memory limit and current usage with the declared headroom threshold.",
+    "Correlate host availability and independently approved kernel/cgroup aggregates at the incident time."
+  ],
+  "limitations": "Usage includes cache; no trend, leak, CPU saturation or initiating cause is inferred from one sample.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/engine/containers/resource_constraints/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "72039dd107b4de2900d4214b7ab1dc1293b4b4b0e06b1e5c57bdfe1ce70385bd"
+}

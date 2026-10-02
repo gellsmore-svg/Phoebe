@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-isolation",
+  "service": "venv",
+  "revision": "1",
+  "title": "System-site isolation and path injection",
+  "summary": "The include-system-site-packages setting controls one source of package visibility. Startup .pth files can add paths and execute code; activation merely changes shell environment and does not prove a running process uses a venv.",
+  "tags": [
+    "venv_isolation",
+    "venv_isolation_mismatch",
+    "venv_system_packages_unmeasured",
+    "venv_dependency_scope_unknown",
+    "pth"
+  ],
+  "checks": [
+    "Compare cfg isolation intent with its explicit contract.",
+    "Treat hooks, external package roots and actual process interpreter/path identity as separate evidence."
+  ],
+  "limitations": "This module never evaluates .pth files, activation or target imports; isolation PASS covers only the cfg setting.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://docs.python.org/3.14/library/site.html",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "dde1ef9ff0713c729865d5dcb1ee5051056eb8b403a19ae86ef1cf200a548148"
+}

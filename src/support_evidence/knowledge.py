@@ -20,7 +20,7 @@ from importlib.resources import files
 from urllib.parse import urlsplit
 from .model import canonical, digest, freshness, validate
 
-RETRIEVAL_VERSION = "bm25-1"
+RETRIEVAL_VERSION = "bm25-2"
 GENERATION_VERSION = "template-1"
 CARD_KEYS = {"schema_version", "kind", "id", "service", "revision", "title", "summary", "tags", "checks", "limitations", "applicability", "source", "integrity"}
 STOP = {"postgresql", "postgres", "nginx", "the", "and", "a", "an", "of", "to", "for", "in", "is", "with", "from"}
@@ -28,7 +28,7 @@ STOP = {"postgresql", "postgres", "nginx", "the", "and", "a", "an", "of", "to", 
 def validate_card(card):
     if not isinstance(card, dict) or set(card) != CARD_KEYS:
         raise ValueError("knowledge card contract")
-    if card["schema_version"] != 1 or card["kind"] != "knowledge_card" or card["service"] not in {"postgresql", "nginx"}:
+    if card["schema_version"] != 1 or card["kind"] != "knowledge_card" or card["service"] not in {"postgresql", "nginx", "docker", "venv"}:
         raise ValueError("knowledge card version/service")
     if not isinstance(card["id"], str) or not re.fullmatch(r"doc:[a-z0-9-]{1,64}", card["id"]):
         raise ValueError("knowledge card identifier")
@@ -46,7 +46,7 @@ def validate_card(card):
     url = urlsplit(source["url"])
     if url.scheme != "https" or url.username or url.password or url.query or url.fragment or url.port not in {None,443}:
         raise ValueError("knowledge source URL")
-    if not ((card["service"] == "postgresql" and url.hostname == "www.postgresql.org" and re.fullmatch(r"/docs/18/[a-z0-9-]+\.html", url.path)) or (card["service"] == "nginx" and url.hostname == "nginx.org" and re.fullmatch(r"/en/docs/(http/)?[a-z0-9_]+\.html", url.path))):
+    if not ((card["service"] == "postgresql" and url.hostname == "www.postgresql.org" and re.fullmatch(r"/docs/18/[a-z0-9-]+\.html", url.path)) or (card["service"] == "nginx" and url.hostname == "nginx.org" and re.fullmatch(r"/en/docs/(http/)?[a-z0-9_]+\.html", url.path)) or (card["service"] == "docker" and url.hostname == "docs.docker.com" and url.path in {"/reference/api/engine/version/v1.47/", "/reference/api/engine/", "/engine/security/rootless/", "/engine/containers/resource_constraints/", "/reference/dockerfile/", "/reference/dockerfile.md", "/engine/network/", "/engine/storage/", "/engine/containers/start-containers-automatically/"}) or (card["service"] == "venv" and ((url.hostname == "docs.python.org" and url.path in {"/3.14/library/venv.html", "/3.14/library/site.html", "/3.14/library/sys.html"}) or (url.hostname == "packaging.python.org" and url.path in {"/en/latest/specifications/core-metadata/", "/en/latest/specifications/dependency-specifiers/", "/en/latest/specifications/recording-installed-packages/"})))):
         raise ValueError("knowledge authoritative source denied")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}",source["verified_at"]):
         raise ValueError("knowledge verification date")
@@ -71,9 +71,10 @@ def validate_corpus(cards):
 def tokens(text):
     return [t for t in re.findall(r"[a-z0-9]+",text.lower()) if t not in STOP]
 
-def retrieve(service, query, cards=None, limit=3):
+def retrieve(service, query, cards=None, limit=3, version=RETRIEVAL_VERSION):
+    if version not in {"bm25-1", "bm25-2"}: raise ValueError("unsupported retrieval version")
     service = "postgresql" if service == "postgres" else service
-    if service not in {"postgresql","nginx"} or not isinstance(query,str) or len(query) > 2048 or not 1 <= limit <= 5:
+    if service not in {"postgresql","nginx","docker","venv"} or not isinstance(query,str) or len(query) > 2048 or not 1 <= limit <= 5:
         raise ValueError("retrieval request budget")
     cards = corpus() if cards is None else validate_corpus(cards)
     documents = [c for c in cards if c["service"] == service]
@@ -90,16 +91,18 @@ def retrieve(service, query, cards=None, limit=3):
             count=bag[term]
             score += idf*count*2.2/(count+1.2*(.25+.75*sum(bag.values())/average))
         # Exact structured signatures outrank incidental prose matches.
-        score += sum(12 for tag in card["tags"] if tag in query.split() and tag.startswith(("postgresql_","nginx_")))
+        score += sum(12 for tag in card["tags"] if tag in query.split() and tag.startswith(("postgresql_","nginx_") if version=="bm25-1" else ("postgresql_","nginx_","docker_","venv_")))
         if score > 0:hits.append({"card":copy.deepcopy(card),"score":round(score,6)})
     return sorted(hits,key=lambda h:(-h["score"],h["card"]["id"]))[:limit]
 
-def service_of(observation):
+def service_of(observation, version=RETRIEVAL_VERSION):
     operation=observation["operation"]
-    return "postgresql" if operation.startswith("postgresql_") else "nginx" if operation.startswith("nginx_") else None
+    services=("postgresql","nginx") if version=="bm25-1" else ("postgresql","nginx","docker","venv")
+    return next((service for service in services if operation.startswith(service+"_")),None)
 
-def augment(report, records, cards=None):
+def augment(report, records, cards=None, retrieval_version=RETRIEVAL_VERSION):
     """Generate an auxiliary explanation; never alter findings, status or support."""
+    if retrieval_version not in {"bm25-1","bm25-2"}: raise ValueError("unsupported retrieval version")
     validate(report)
     for record in records:validate(record)
     cards=corpus() if cards is None else validate_corpus(cards)
@@ -107,21 +110,21 @@ def augment(report, records, cards=None):
     seeds=[];covered=set()
     for finding in report["findings"]:
         observations=[index[i] for i in finding["supporting"]]
-        if observations and service_of(observations[0]):
+        if observations and service_of(observations[0],retrieval_version):
             seeds.append((finding["id"],observations));covered.update(o["id"] for o in observations)
     # Unknown and unmatched service failures need guidance too, including stale coverage.
-    seeds.extend((None,[o]) for o in sorted(index.values(),key=lambda o:o["id"]) if service_of(o) and o["id"] not in covered and (o["predicate_status"] != "PASS" or freshness(o,report["at"]) != "fresh"))
+    seeds.extend((None,[o]) for o in sorted(index.values(),key=lambda o:o["id"]) if service_of(o,retrieval_version) and o["id"] not in covered and (o["predicate_status"] != "PASS" or freshness(o,report["at"]) != "fresh"))
     entries=[]
     for finding_id,observations in seeds[:128]:
-        service=service_of(observations[0])
+        service=service_of(observations[0],retrieval_version)
         query=" ".join(str(v) for o in observations for v in [o["operation"],o["predicate"],o["value"].get("reason",""),o["value"].get("error_code",""),o["value"].get("status_code","")])[:2048]
-        hits=retrieve(service,query,cards)
+        hits=retrieve(service,query,cards,version=retrieval_version)
         entries.append({"finding_id":finding_id,"evidence_ids":sorted(o["id"] for o in observations),"service":service,
             "observations":[{"id":o["id"],"collector_status":o["collector_status"],"predicate_status":o["predicate_status"],"freshness":freshness(o,report["at"])} for o in sorted(observations,key=lambda o:o["id"])],
             "status":"grounded_guidance" if hits else "no_matching_documentation",
             "explanation":"Runtime status is established only by the cited observations. Retrieved documentation supplies competing mechanisms and discriminating checks; it does not establish an initiating cause.",
             "documents":[{"id":h["card"]["id"],"integrity":h["card"]["integrity"],"score":h["score"],"title":h["card"]["title"],"summary":h["card"]["summary"],"checks":h["card"]["checks"],"limitations":h["card"]["limitations"],"applicability":h["card"]["applicability"],"source":h["card"]["source"]} for h in hits]})
-    return {"schema_version":1,"kind":"knowledge_context","incident_id":report["id"],"corpus_integrity":digest(cards),"retrieval_version":RETRIEVAL_VERSION,"generation_version":GENERATION_VERSION,"mode":"offline lexical retrieval and deterministic grounded generation","runtime_evidence":False,"truncated":len(seeds)>128,"entries":entries}
+    return {"schema_version":1,"kind":"knowledge_context","incident_id":report["id"],"corpus_integrity":digest(cards),"retrieval_version":retrieval_version,"generation_version":GENERATION_VERSION,"mode":"offline lexical retrieval and deterministic grounded generation","runtime_evidence":False,"truncated":len(seeds)>128,"entries":entries}
 
 def attachment(report, records, cards=None):
     cards=corpus() if cards is None else validate_corpus(cards)
@@ -130,7 +133,8 @@ def attachment(report, records, cards=None):
 def verify_attachment(value, report, records):
     if not isinstance(value,dict) or set(value)!={"cards","context"}:
         raise ValueError("knowledge attachment contract")
-    expected=augment(report,records,value["cards"])
+    if not isinstance(value["context"],dict): raise ValueError("knowledge context contract")
+    expected=augment(report,records,value["cards"],retrieval_version=value["context"].get("retrieval_version"))
     if expected != value["context"]:
         raise ValueError("knowledge generation or citation mismatch")
     return value
@@ -144,7 +148,7 @@ def render_context(context):
         for doc in entry["documents"]:
             lines.extend(["    ["+doc["id"]+"] "+doc["title"]+": "+doc["summary"],"      Check: "+"; ".join(doc["checks"]),"      Limit: "+doc["limitations"],"      Source: "+doc["source"]["url"]+" (verified "+doc["source"]["verified_at"]+"; "+doc["applicability"]+")"])
     if context["truncated"]:lines.append("  Guidance budget reached; remaining entries omitted.")
-    if not context["entries"]:lines.append("  No failing or unknown PostgreSQL/Nginx operation requires guidance.")
+    if not context["entries"]:lines.append("  No failing, unknown or stale supported-service observation requires guidance.")
     return "\n".join(lines)+"\n"
 
 def fetch_source(url, timeout):

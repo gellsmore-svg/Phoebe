@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-pids",
+  "service": "docker",
+  "revision": "1",
+  "title": "PID limits and missing statistics",
+  "summary": "PID exhaustion can prevent child creation even when the main process remains running. Container PID limits and counters must be visible; an unlimited or absent limit cannot provide configured headroom.",
+  "tags": [
+    "docker_resources",
+    "docker_resource_limit_unknown",
+    "docker_statistics_unavailable",
+    "pids"
+  ],
+  "checks": [
+    "Check configured PID headroom and compare host-level process limits separately.",
+    "Repeat from the approved daemon vantage if cgroup statistics are unavailable."
+  ],
+  "limitations": "No process command lines are collected. Unsupported or absent counters remain unknown.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/reference/api/engine/version/v1.47/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "c21a3cc6cb4a8b062dec100854644161871835901342f4490a39d4558977aec3"
+}

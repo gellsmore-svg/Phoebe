@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-race",
+  "service": "venv",
+  "revision": "1",
+  "title": "Unsafe paths and changing environment snapshots",
+  "summary": "An environment may change during package installation or replacement. Symlinked metadata and changed cfg or distribution inventories prevent a stable static snapshot and must preserve uncertainty.",
+  "tags": [
+    "venv_metadata_unsafe_path",
+    "venv_metadata_changed",
+    "venv_metadata_not_regular",
+    "venv_metadata_budget"
+  ],
+  "checks": [
+    "Repeat after installation/replacement activity has finished and approve every external base path explicitly.",
+    "Keep venv instance identity and deployment timing scoped to the application process under investigation."
+  ],
+  "limitations": "Reads reject metadata symlinks and nonregular files; there is no filesystem-wide atomic snapshot guarantee.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://packaging.python.org/en/latest/specifications/recording-installed-packages/",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "abe35da5120dc04634ab2a8d4842a90f8d9bfa79591e9f84e9321e784e18cbd1"
+}

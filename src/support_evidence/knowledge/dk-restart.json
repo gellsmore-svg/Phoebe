@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-restart",
+  "service": "docker",
+  "revision": "1",
+  "title": "Restart policies and recurring failure",
+  "summary": "Restart policy, exit state and restart count provide lifecycle evidence. Repeated exits can arise from entrypoint failure, unavailable dependencies, permissions, signals or resource pressure.",
+  "tags": [
+    "docker_restart_threshold",
+    "docker_state_mismatch",
+    "restart",
+    "exit"
+  ],
+  "checks": [
+    "Correlate bounded exit/restart evidence with application dependency checks and deployment times.",
+    "Review restart policy intent independently of current running state."
+  ],
+  "limitations": "A snapshot count is not a rate and exit 137 alone does not prove OOM.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/engine/containers/start-containers-automatically/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "75b4cd595ad939189917d9dbcce192455aa3f7e5949b25beafb9d8112d7b52ea"
+}

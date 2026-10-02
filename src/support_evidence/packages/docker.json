@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:docker",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "docker.daemon_unreachable",
+      "version": "1.0.0",
+      "operations": [
+        "docker_daemon",
+        "docker_container",
+        "docker_health",
+        "docker_resources"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "The declared Engine socket was absent or refused a connection; container state remains unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_daemon_unreachable"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/reference/api/engine/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.container_missing",
+      "version": "1.0.0",
+      "operations": [
+        "docker_container",
+        "docker_health",
+        "docker_resources"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "The compatible Engine API reported this exact container ID missing; removal cause is unverified.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_container_missing"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/reference/api/engine/version/v1.47/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.state_mismatch",
+      "version": "1.0.0",
+      "operations": [
+        "docker_container",
+        "docker_health",
+        "docker_resources"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "Observed container state breached the declared lifecycle contract; workload cause remains unverified.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_state_mismatch"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/reference/api/engine/version/v1.47/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.oom_recorded",
+      "version": "1.0.0",
+      "operations": [
+        "docker_container",
+        "docker_health",
+        "docker_resources"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "Engine recorded OOMKilled for this container lifetime; the initiating allocation and host history remain unknown.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_oom_recorded"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_resources"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/engine/containers/resource_constraints/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.restart_threshold",
+      "version": "1.0.0",
+      "operations": [
+        "docker_container"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "The snapshot restart count exceeded its explicit threshold; count does not establish a restart rate or cause.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_restart_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/engine/containers/start-containers-automatically/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.unhealthy",
+      "version": "1.0.0",
+      "operations": [
+        "docker_health"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "Engine reported an unhealthy configured check; application correctness and downstream causes require independent evidence.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_unhealthy"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_state"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/reference/dockerfile/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "docker.resource_threshold",
+      "version": "1.0.0",
+      "operations": [
+        "docker_resources"
+      ],
+      "boundary": "docker declared static/API contract",
+      "message": "Observed memory or PID headroom breached its supplied threshold for this container lifetime.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "docker_resource_threshold"
+        ]
+      },
+      "next_checks": [
+        "collect_docker_resources"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.docker.com/engine/containers/resource_constraints/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://docs.docker.com/engine/containers/resource_constraints/",
+    "https://docs.docker.com/engine/containers/start-containers-automatically/",
+    "https://docs.docker.com/reference/api/engine/",
+    "https://docs.docker.com/reference/api/engine/version/v1.47/",
+    "https://docs.docker.com/reference/dockerfile/"
+  ],
+  "licence": "original project package; official documentation referenced, not copied",
+  "technology": [
+    "docker"
+  ]
+}

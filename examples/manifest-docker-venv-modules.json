@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "scope": "example Docker and Python venv contracts; replace target paths and container IDs",
+  "agent_vantage": "local:cello",
+  "allowed_targets": [
+    "/run/docker.sock",
+    "/opt/example/.venv"
+  ],
+  "allowed_addresses": {},
+  "allowed_paths": [
+    "/run/docker.sock",
+    "/opt/example/.venv",
+    "/usr/bin",
+    "/usr/bin/python3.12"
+  ],
+  "allowed_units": [],
+  "probes": [
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:docker_daemon",
+      "subject": "service:example-container",
+      "instance_id": null,
+      "operation": "docker_daemon",
+      "predicate": "docker_daemon",
+      "target": "/run/docker.sock",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/run/docker.sock",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {}
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:docker_container",
+      "subject": "service:example-container",
+      "instance_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operation": "docker_container",
+      "predicate": "docker_container",
+      "target": "/run/docker.sock",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/run/docker.sock",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "container_state": "running",
+        "max_restarts": 3
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:docker_health",
+      "subject": "service:example-container",
+      "instance_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operation": "docker_health",
+      "predicate": "docker_health",
+      "target": "/run/docker.sock",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/run/docker.sock",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {}
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:docker_resources",
+      "subject": "service:example-container",
+      "instance_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operation": "docker_resources",
+      "predicate": "docker_resources",
+      "target": "/run/docker.sock",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/run/docker.sock",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "min_memory_headroom_bytes": 16777216,
+        "min_pids_headroom": 4
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:venv_layout",
+      "subject": "service:example-venv",
+      "instance_id": "release:example",
+      "operation": "venv_layout",
+      "predicate": "venv_layout",
+      "target": "/opt/example/.venv",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/opt/example/.venv",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "python_version": "3.12"
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:venv_isolation",
+      "subject": "service:example-venv",
+      "instance_id": "release:example",
+      "operation": "venv_isolation",
+      "predicate": "venv_isolation",
+      "target": "/opt/example/.venv",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/opt/example/.venv",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "isolated": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:venv_scripts",
+      "subject": "service:example-venv",
+      "instance_id": "release:example",
+      "operation": "venv_scripts",
+      "predicate": "venv_scripts",
+      "target": "/opt/example/.venv",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/opt/example/.venv",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {}
+    },
+    {
+      "schema_version": 1,
+      "kind": "probe",
+      "id": "probe:venv_dependencies",
+      "subject": "service:example-venv",
+      "instance_id": "release:example",
+      "operation": "venv_dependencies",
+      "predicate": "venv_dependencies",
+      "target": "/opt/example/.venv",
+      "vantage": "local:cello",
+      "namespace": "current",
+      "route": "/opt/example/.venv",
+      "timeout": 4,
+      "interval": 30,
+      "freshness": 60,
+      "cost": "bounded",
+      "side_effect": "read_only",
+      "expected": {
+        "requirements": [
+          "pip>=24"
+        ]
+      }
+    }
+  ],
+  "entities": [],
+  "assertions": [],
+  "impact_contract": "declared container API state and Python venv static contracts"
+}

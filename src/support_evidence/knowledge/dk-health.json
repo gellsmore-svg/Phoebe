@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-health",
+  "service": "docker",
+  "revision": "1",
+  "title": "Health-check coverage and startup",
+  "summary": "Engine health has starting, healthy and unhealthy states when an image or container config defines a health check. Unhealthy reflects that check contract; absence and startup leave this health predicate unmeasured.",
+  "tags": [
+    "docker_health",
+    "docker_unhealthy",
+    "docker_health_starting",
+    "docker_health_not_configured"
+  ],
+  "checks": [
+    "Confirm the configured health check is representative and its startup budget is appropriate.",
+    "Check its dependency route separately from the affected application vantage."
+  ],
+  "limitations": "The collector does not execute a check, retain health output or verify business correctness.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/reference/dockerfile.md",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "c1853a5dd91a5e3684d6b3af305da2214cfb3b812c468783156ae8986999b010"
+}

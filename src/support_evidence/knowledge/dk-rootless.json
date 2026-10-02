@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-rootless",
+  "service": "docker",
+  "revision": "1",
+  "title": "Rootless and namespace boundaries",
+  "summary": "Rootless Engine uses a user daemon and user-specific socket. User service lifecycle, runtime-directory cleanup, UID mappings and namespace restrictions can affect access independently of a system daemon.",
+  "tags": [
+    "docker_socket_permission",
+    "docker_daemon",
+    "rootless",
+    "namespace"
+  ],
+  "checks": [
+    "Check the explicitly declared user socket and user service.",
+    "Correlate user-session lifecycle and capability evidence; keep host and container vantages distinct."
+  ],
+  "limitations": "This collector neither discovers contexts nor enters namespaces; remote and Windows endpoints are unsupported.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/engine/security/rootless/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "2ec575ecb58e644311ccc3b083c7cd2365606fb69b13252b2bf8729a63a3819f"
+}

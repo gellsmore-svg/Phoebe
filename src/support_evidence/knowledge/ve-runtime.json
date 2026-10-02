@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-runtime",
+  "service": "venv",
+  "revision": "1",
+  "title": "Interpreter, imports and native dependency boundaries",
+  "summary": "A process interpreter prefix, import path and loaded modules determine actual runtime environment. Static package metadata cannot prove native extension ABI, loader libraries, import-name mapping or which environment an existing service uses.",
+  "tags": [
+    "venv_layout",
+    "venv_dependencies",
+    "runtime",
+    "abi",
+    "imports",
+    "process"
+  ],
+  "checks": [
+    "Correlate trusted application instrumentation for process interpreter identity and an authoritative functional oracle.",
+    "Check OS library and architecture compatibility through a separately approved read-only collector."
+  ],
+  "limitations": "No target-controlled Python, pip, modules or entry points are executed; runtime behavior remains unmeasured.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://docs.python.org/3.14/library/sys.html",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "87f28f6eea8f1465137ea37769bb461fed15461c763027161ef8cc78148b2a06"
+}

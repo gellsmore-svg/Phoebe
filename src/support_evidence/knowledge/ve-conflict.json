@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-conflict",
+  "service": "venv",
+  "revision": "1",
+  "title": "Dependency and interpreter version conflicts",
+  "summary": "Requires-Dist version specifiers and Requires-Python constrain compatible versions. A present package can still breach a dependency contract; conflicting requirements need reproducible resolution inputs.",
+  "tags": [
+    "venv_dependencies",
+    "venv_dependency_conflict",
+    "Requires-Python",
+    "versions"
+  ],
+  "checks": [
+    "Compare normalized installed versions against every active requirement and the cfg Python version.",
+    "Review lock/constraint intent independently; build a disposable replacement before any deployment decision."
+  ],
+  "limitations": "No dependency solver, installer or remediation executor runs; metadata cannot establish runtime compatibility.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://packaging.python.org/en/latest/specifications/dependency-specifiers/",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "70a04911e2c4c0decc38655ee388552a1a6cca246d68138fc8e427f09064ef90"
+}

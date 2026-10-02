@@ -82,7 +82,7 @@ def test_cli_rag_json_is_explicit_and_replay_has_guidance(probe,tmp_path,capsys)
     capsys.readouterr()
     assert main(['replay',str(path),'--json'])==0
     data=json.loads(capsys.readouterr().out)
-    assert data['knowledge']['entries'] and data['report']['engine_version']=='0.2.0'
+    assert data['knowledge']['entries'] and data['report']['engine_version']==__import__('support_evidence').__version__
 
 def test_refresh_uses_fixed_inventory_and_secret_free_process(monkeypatch):
     import support_evidence.supervisor as supervisor

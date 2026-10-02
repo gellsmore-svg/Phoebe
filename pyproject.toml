@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "support-evidence"
-version = "0.2.0"
+version = "0.3.0"
 description = "Local, evidence-scoped operational diagnosis over existing monitoring"
 requires-python = ">=3.11"
-dependencies = ["jsonschema>=4.23,<5"]
+dependencies = ["jsonschema>=4.23,<5", "packaging>=24,<27"]
 
 [project.optional-dependencies]
 databases = ["pymongo>=4.10,<5", "psycopg[binary]>=3.2,<4"]

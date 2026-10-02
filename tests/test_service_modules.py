@@ -109,7 +109,7 @@ def test_new_unknown_blocks_older_pass(probe,delta,collector):
     denied=observation(probe,collector=collector,now=100+delta)
     report=diagnose([passed,denied],100+delta)
     assert passed['id'] not in report['passed'] and any(denied['id'] in u for u in report['unknowns'])
-    old_pkgs=[p for p in packages() if p['id'] not in {'package:postgresql','package:nginx'}]
+    old_pkgs=[p for p in packages() if not any(r.get('match') or r.get('exclude_reasons') for r in p['rules'])]
     assert passed['id'] in diagnose([passed,denied],100+delta,rule_packages=old_pkgs,engine_version='0.1.0')['passed']
 
 def test_specific_signature_does_not_inherit_unrelated_support(probe):

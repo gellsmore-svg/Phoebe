@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-layout",
+  "service": "venv",
+  "revision": "1",
+  "title": "Environment structure and base installation",
+  "summary": "A venv configuration references its base installation and has a local interpreter entry. Missing configuration, base installation, broken interpreter symlink or version-contract mismatch can invalidate declared structure.",
+  "tags": [
+    "venv_layout",
+    "venv_missing",
+    "venv_configuration_missing",
+    "venv_base_missing",
+    "venv_interpreter_missing",
+    "venv_interpreter_unusable",
+    "venv_version_mismatch"
+  ],
+  "checks": [
+    "Check the declared venv root, cfg version and approved base/interpreter paths.",
+    "Recreate an environment from controlled dependency inputs after operator review if its base or structure is invalid."
+  ],
+  "limitations": "Static structure does not verify interpreter execution, ABI, shared libraries or imports.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://docs.python.org/3.14/library/venv.html",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "6c142a33c7a5d69aa2dfb389e07af50ffbc760d15776c979db93606de5018ec9"
+}

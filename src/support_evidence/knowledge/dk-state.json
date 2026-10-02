@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-state",
+  "service": "docker",
+  "revision": "1",
+  "title": "Container state and immutable identity",
+  "summary": "Container inspect records lifecycle state for an immutable ID. Running, paused, restarting, exited and dead require different checks. A reused name can identify a replacement rather than the incident instance.",
+  "tags": [
+    "docker_container",
+    "docker_state_mismatch",
+    "docker_container_missing",
+    "docker_container_changed",
+    "docker_identity_mismatch"
+  ],
+  "checks": [
+    "Repeat inspect for the exact full ID and verify its start/restart cohort.",
+    "Compare declared instance topology with an independent application route or database contract."
+  ],
+  "limitations": "Running does not prove functional health. A missing ID does not show why it disappeared.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/reference/api/engine/version/v1.47/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "8ccce9a47be9425dcfaa96af68c4a2bc1484373e83eddc70f4dbce099502ced1"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-uncertain",
+  "service": "docker",
+  "revision": "1",
+  "title": "Malformed, denied and racing API evidence",
+  "summary": "Fixed GET endpoints can fail from permissions, protocol mismatch, oversized output, timeouts or container lifetime changes. These collector gaps must not establish healthy workload state.",
+  "tags": [
+    "docker_response_malformed",
+    "docker_state_inconsistent",
+    "docker_response_budget",
+    "docker_api_connection",
+    "docker_container_changed"
+  ],
+  "checks": [
+    "Repeat a bounded request after confirming the socket and instance ID.",
+    "Preserve denied/unknown evidence and separate API availability from application availability."
+  ],
+  "limitations": "Response bodies are discarded; only safe aggregate metadata is retained.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/reference/api/engine/version/v1.47/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "ebf411b7e0f139e40c14f1d64cac73bfb3e70d770767d6928427cccc69a48059"
+}

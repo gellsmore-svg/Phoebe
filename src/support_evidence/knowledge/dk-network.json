@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-network",
+  "service": "docker",
+  "revision": "1",
+  "title": "Recursive network and proxy dependencies",
+  "summary": "A running container can have an unreachable service through namespace DNS, network attachment, published-port routing, firewall or upstream failure. Exposure metadata describes intent, while a route probe measures operation.",
+  "tags": [
+    "docker_container",
+    "docker_health",
+    "network",
+    "dns",
+    "ports",
+    "nginx"
+  ],
+  "checks": [
+    "Declare DNS, TCP/TLS and functional HTTP checks from the affected vantage in order.",
+    "Separate container-local health from the published application path and downstream database role/read contract."
+  ],
+  "limitations": "This module does not inspect network policy or assert reachability from state alone.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/engine/network/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "4455d25ea367b374e6aadd48d51547c6a458c7e2ca8294eb0cab4caebb7a0439"
+}

@@ -6,6 +6,9 @@ from .graph import project
 from .model import validate, digest, freshness, scope
 
 NEXT_CHECKS={
+ "collect_docker_state":"Repeat docker_container for the declared full container ID; correlate health and independent application contracts.",
+ "collect_docker_resources":"Read bounded docker_resources with explicit memory or PID headroom thresholds; correlate host capacity separately.",
+ "verify_venv_metadata":"Repeat bounded venv_layout, venv_isolation, venv_scripts and venv_dependencies; static metadata does not verify imports or running process identity.",
  "inspect_service_state":"Read allowlisted systemd state and independent listener evidence.",
  "collect_host_metrics":"Collect bounded host aggregates from the existing exporter.",
  "probe_dns":"Repeat allowlisted DNS resolution from the affected vantage.",
@@ -37,7 +40,7 @@ def signature(rule, observation):
 
 def diagnose(records,at,impact="unspecified operation",rule_packages=None,changes=None,engine_version=None):
     version = engine_version or __version__
-    if version not in {"0.1.0", "0.2.0"}:raise ValueError("unsupported diagnosis engine")
+    if version not in {"0.1.0", "0.2.0", "0.3.0"}:raise ValueError("unsupported diagnosis engine")
     legacy = version == "0.1.0"
     if len(records)>5000:raise ValueError("incident work budget exceeded")
     for r in records:validate(r)

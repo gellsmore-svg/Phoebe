@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-missing",
+  "service": "venv",
+  "revision": "1",
+  "title": "Missing recursive dependencies",
+  "summary": "Installed distribution metadata declares Requires-Dist dependencies. Missing transitive requirements can break an application even if its top-level distribution is present. Extras can add further dependency edges.",
+  "tags": [
+    "venv_dependencies",
+    "venv_dependencies_missing",
+    "missing_dependencies",
+    "extras"
+  ],
+  "checks": [
+    "Compare declared requirements and recursively activated extras against local dist-info metadata.",
+    "Check declared base Python compatibility and dependency markers before attributing an import failure."
+  ],
+  "limitations": "Metadata describes installed distributions, not import success, package contents or external services.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://packaging.python.org/en/latest/specifications/core-metadata/",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "fa1a1fa9afbed5a108c8ebf0d5e63843547f9dc0f8e8d70b3f10b53a1d2b7066"
+}

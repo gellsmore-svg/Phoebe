@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "kind": "failure_package",
+  "id": "package:venv",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "venv.missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout",
+        "venv_isolation",
+        "venv_dependencies",
+        "venv_scripts"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The explicitly declared environment root was absent.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.configuration_missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout",
+        "venv_isolation",
+        "venv_dependencies",
+        "venv_scripts"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The declared environment lacked pyvenv.cfg; runtime identity remains unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_configuration_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.base_missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The explicitly approved base-installation directory was absent.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_base_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.interpreter_missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout",
+        "venv_scripts"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The local interpreter or its bin directory was missing.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_interpreter_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.interpreter_unusable",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The local interpreter entry failed the static regular/executable-file contract.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_interpreter_unusable"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.version_mismatch",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The cfg Python version differed from the explicit version contract; executable runtime version is unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_version_mismatch"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.isolation_mismatch",
+      "version": "1.0.0",
+      "operations": [
+        "venv_isolation"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The system-site-packages cfg setting breached its declared isolation contract; actual import paths are unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_isolation_mismatch"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/site.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.site_missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_dependencies"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The expected local site-packages directory was absent.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_site_packages_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.dependencies_missing",
+      "version": "1.0.0",
+      "operations": [
+        "venv_dependencies"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "Local metadata positively identified missing active declared dependencies; imports and package files remain unmeasured.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_dependencies_missing"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://packaging.python.org/en/latest/specifications/core-metadata/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.dependency_conflict",
+      "version": "1.0.0",
+      "operations": [
+        "venv_dependencies"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "An active package or Python-version constraint conflicted with installed metadata.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_dependency_conflict"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://packaging.python.org/en/latest/specifications/dependency-specifiers/"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.script_path",
+      "version": "1.0.0",
+      "operations": [
+        "venv_scripts"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "A static Python script shebang referenced a different environment location.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_script_path_mismatch"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    },
+    {
+      "id": "venv.root_not_directory",
+      "version": "1.0.0",
+      "operations": [
+        "venv_layout",
+        "venv_isolation",
+        "venv_dependencies",
+        "venv_scripts"
+      ],
+      "boundary": "venv declared static/API contract",
+      "message": "The declared environment root was a nondirectory path.",
+      "required_predicates": [],
+      "match": {
+        "reason": [
+          "venv_root_not_directory"
+        ]
+      },
+      "next_checks": [
+        "verify_venv_metadata"
+      ],
+      "unknowns": [
+        "initiating cause unverified",
+        "unmeasured operations and vantages remain unknown"
+      ],
+      "source_refs": [
+        "https://docs.python.org/3.14/library/venv.html"
+      ],
+      "licence": "original project rule; upstream documentation referenced, not copied",
+      "fixtures": {
+        "positive": "FAIL",
+        "negative": "PASS",
+        "unknown": "UNKNOWN"
+      }
+    }
+  ],
+  "source_refs": [
+    "https://docs.python.org/3.14/library/site.html",
+    "https://docs.python.org/3.14/library/venv.html",
+    "https://packaging.python.org/en/latest/specifications/core-metadata/",
+    "https://packaging.python.org/en/latest/specifications/dependency-specifiers/"
+  ],
+  "licence": "original project package; official documentation referenced, not copied",
+  "technology": [
+    "venv"
+  ]
+}

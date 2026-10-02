@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-storage",
+  "service": "docker",
+  "revision": "1",
+  "title": "Mount, permissions and storage dependencies",
+  "summary": "Writable-layer, bind mount and volume behavior differ. A workload may fail from a missing mount, UID mismatch, read-only path, disk/inode exhaustion or host storage latency while Engine remains reachable.",
+  "tags": [
+    "docker_state_mismatch",
+    "docker_unhealthy",
+    "storage",
+    "mount",
+    "permissions"
+  ],
+  "checks": [
+    "Correlate separately approved filesystem capacity/inode evidence and mount intent.",
+    "Verify workload UID and data-path contracts with an operator; compare application read/oracle evidence."
+  ],
+  "limitations": "No container filesystem, raw logs, environment or mounted data is read by this module.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/engine/storage/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "f234c88bcddcc8f82bd43907d9bd87ef3e312181a565306e2cf4742cf04e49b2"
+}

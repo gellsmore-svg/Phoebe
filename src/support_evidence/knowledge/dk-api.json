@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:dk-api",
+  "service": "docker",
+  "revision": "1",
+  "title": "Daemon access and API compatibility",
+  "summary": "A declared local socket must reach a Linux Engine with a compatible API. Socket absence, access denial and an unsupported API are different boundaries. Docker contexts and rootless sockets can point to different daemons.",
+  "tags": [
+    "docker_daemon",
+    "docker_daemon_unreachable",
+    "docker_api_version_unsupported",
+    "docker_api_permission",
+    "docker_api_deadline"
+  ],
+  "checks": [
+    "Confirm the approved socket and daemon identity from the affected user and namespace.",
+    "Check service state and socket permissions independently; repeat the fixed version request."
+  ],
+  "limitations": "A successful version request does not verify any container or workload.",
+  "applicability": "Linux Engine; fixed API 1.24-1.47 envelope",
+  "source": {
+    "url": "https://docs.docker.com/reference/api/engine/",
+    "documentation_version": "Engine API 1.47 and rolling Docker documentation",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "546e3deeaf5c0414e26b47f929af8bbb4c25ed40fbd6a3dc560644bb793cfcfb"
+}

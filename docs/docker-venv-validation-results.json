@@ -1,0 +1,465 @@
+{
+  "run_id": "phoebe-docker-venv-f8aa77e596",
+  "cases": [
+    {
+      "name": "docker-daemon",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-running",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-healthy",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-unhealthy",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_unhealthy",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-no-health",
+      "collector": "UNAVAILABLE",
+      "predicate": "UNKNOWN",
+      "reason": "docker_health_not_configured",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-resources-control",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-resource-threshold",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_resource_threshold",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-paused",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_state_mismatch",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-manual-restart",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-restart-threshold",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_restart_threshold",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-stopped",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_state_mismatch",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-missing",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_container_missing",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "docker-oom",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "docker_oom_recorded",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-layout",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-isolation",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-scripts",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-dependencies",
+      "collector": "OK",
+      "predicate": "PASS",
+      "reason": null,
+      "bundle_replay": true,
+      "guidance_documents": 0,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-version-mismatch",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_version_mismatch",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-missing-dependency",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_dependencies_missing",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-moved-scripts",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_script_path_mismatch",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-isolation-mismatch",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_isolation_mismatch",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-external-packages",
+      "collector": "UNAVAILABLE",
+      "predicate": "UNKNOWN",
+      "reason": "venv_system_packages_unmeasured",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-broken-interpreter",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_interpreter_missing",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-malformed-cfg",
+      "collector": "ERROR",
+      "predicate": "UNKNOWN",
+      "reason": "venv_configuration_malformed",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    },
+    {
+      "name": "venv-missing-cfg",
+      "collector": "OK",
+      "predicate": "FAIL",
+      "reason": "venv_configuration_missing",
+      "bundle_replay": true,
+      "guidance_documents": 3,
+      "reference": "actual local disposable fixture"
+    }
+  ],
+  "count": 25,
+  "all_passed": true,
+  "user": 1000,
+  "existing_containers_preserved": true,
+  "limitations": [
+    "local Linux Engine only; no remote/rootless deployment integration",
+    "venv tests use trusted local Python creation; product never executes the target interpreter",
+    "memory threshold and bounded container OOM; no host exhaustion or production fault injection",
+    "no native imports, ABI, actual service interpreter, Windows venv or filesystem-wide atomic snapshot validation"
+  ],
+  "automated_tests": 217,
+  "offline_install": {
+    "offline_install": true,
+    "installed_venv_probe": true,
+    "offline_replay": true,
+    "removal": true,
+    "reference": "Python/Linux local wheelhouse",
+    "network_required": false,
+    "store": "no retained user store deleted"
+  },
+  "source_audit": {
+    "corpus_integrity": "e332101e53908007e0c1d1de19bfa2739b45af8f529d490b960dc00a0f44cc59",
+    "kind": "source_refresh_audit",
+    "retrieved_at": 1790926655.9481804,
+    "schema_version": 1,
+    "sources": [
+      {
+        "review_required": true,
+        "source_sha256": "df14afe801c7c80d78d43081ddbe8f2c9aeb97e6aac8c89b94a5e0cf69f5845a",
+        "status": "fetched",
+        "url": "https://docs.docker.com/engine/containers/resource_constraints/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "a962a82dafb21b00deb5f2f2c3fc1027ac90b772532a98b363b32669d8fd4032",
+        "status": "fetched",
+        "url": "https://docs.docker.com/engine/containers/start-containers-automatically/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "612b232ef28cb71878235c2c359329420e4f1266438ab94ddd6840bc0b9dee5a",
+        "status": "fetched",
+        "url": "https://docs.docker.com/engine/network/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "2481faf7a6d96717ca7774de2c6f927160b835ffe56191a1b3b5555225e4297f",
+        "status": "fetched",
+        "url": "https://docs.docker.com/engine/security/rootless/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "39e3fab73e0c209a55726a1044c1a126132cb75258473eaf541e30f9307b8b1b",
+        "status": "fetched",
+        "url": "https://docs.docker.com/engine/storage/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "e9ed9b52060acbc04099b17a847f7d4de78380eadf99aac5561e3a1404af0352",
+        "status": "fetched",
+        "url": "https://docs.docker.com/reference/api/engine/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "94e35225cf474537282869c79759100d1230a1f3df52f1898d0294848511ac18",
+        "status": "fetched",
+        "url": "https://docs.docker.com/reference/api/engine/version/v1.47/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "76b783a269d285a12182d529399f9a67c23d474f7db5f2faa170c2ac5db87d08",
+        "status": "fetched",
+        "url": "https://docs.docker.com/reference/dockerfile.md"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "3c6ffc4c741c36a74ec0f432b057078f07ea105507a3e6b506cecd15cdc60d0f",
+        "status": "fetched",
+        "url": "https://docs.python.org/3.14/library/site.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "7b26914564870a69cc8f307f532735c130db448efd311a7b182c22f1c645e6d6",
+        "status": "fetched",
+        "url": "https://docs.python.org/3.14/library/sys.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "1f49a7b3db475072ad6f682828fa8e207b8ee33f5a90d99bef98ddd5cf7a4d05",
+        "status": "fetched",
+        "url": "https://docs.python.org/3.14/library/venv.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "647f86b6f2e06527a469cdf73f5f78ef94f719f108c265e7d700a184d18d5bf5",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/control.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "713b42178d5f70f392fae4c427808e5ab35864943fc3ccf8236b00d942bf9347",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_core_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "7fedc5023cc3a7b7a64060e692ce3ecf20ae990d1e2cb517816a57a0b4c52da5",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_limit_req_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "d5b57d46a1f3c04770dde072d4d5f472e390280fcc80a1e748ff661aebe7b2b7",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "141c2ab950e3fe3ab29d1bdd1eecc65d0abab66ac9bcc2c6862d23402784ee99",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_ssl_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "5508402add1f45a3a55e2f99e419d4eb5ca225577a7e1b7130b3eec2ab2f0bfe",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_stub_status_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "ac8a1feca39a22dc0d5d93d2d0bf2abdca7351d7b3b282f8fc376f9677fc9b41",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "1b4bc98d040ed6e029053dcf2b4773400100c625cbf77f3e1bef67c3c61c1a7b",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/http/request_processing.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "e9deb9698bfaf32855878be12e0816e60d81ce7a8139f34e0221390d28efdd98",
+        "status": "fetched",
+        "url": "https://nginx.org/en/docs/ngx_core_module.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "0dde3b540de3a1d8ede43f82fb98a7542fe825d6eb6c3e3a00e1c96038473602",
+        "status": "fetched",
+        "url": "https://packaging.python.org/en/latest/specifications/core-metadata/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "05f50ad4dc9e0f56be31f04c6a3a92b22e469be1a013901d83a7609c534d9aec",
+        "status": "fetched",
+        "url": "https://packaging.python.org/en/latest/specifications/dependency-specifiers/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "b137a4a6fdbdc223da7264345f0759caa6b7640ec2cf0e04d608152309b94ebc",
+        "status": "fetched",
+        "url": "https://packaging.python.org/en/latest/specifications/recording-installed-packages/"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "11b321d57d9adb0aa6fbf2e7da51c36d35c4c9eeebb47e5a731c87f730fa033d",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/auth-pg-hba-conf.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "c28dbb67e01f08afb36b368b491847f52bfc1e7bf1ff87e9ebe91b269c295ecf",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "c33f6572453ae53f5eec72aa97e9d3de506760fd9de074c03dfeb7618418790f",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/functions-admin.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "98b62219435d063cbfa727d58ad8be380ce289e148d3979a3687b689e646edb1",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/functions-info.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "88d5596e19c945f3d24a2cde84e6681af92fe2a61a9a5858cda30437b0f5b6d9",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/libpq-ssl.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "16f5d160ed15a512560df829ba8c4fe3164e5bfa1c1b4ee56847217a52582a3d",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/monitoring-stats.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "4b37beac59cb870ae39967127a026c03c35626f9228c8c7df1814eca203ad3d9",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/predefined-roles.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "568c632ab04dc2eb6681dc125a146297771d3fe3c46a1b844678f3e0db6870cf",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/routine-vacuuming.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "c898282005582247c9a2fdd0aea1878cd3f95cb857e25206e1efe590ce73c0d5",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/runtime-config-client.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "f29d3345299d1acb6eb57f4b2653b46407d30c1cfa7405ec4f48640e436db1d4",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/runtime-config-connection.html"
+      },
+      {
+        "review_required": true,
+        "source_sha256": "ab73173d7120fe3b3a50c48ffc75d461bb14cff4b167ad047f47cad19b520d80",
+        "status": "fetched",
+        "url": "https://www.postgresql.org/docs/18/view-pg-replication-slots.html"
+      }
+    ],
+    "summaries_changed": false
+  },
+  "owned_containers_cleaned": true,
+  "final_worker_policy_verified": true
+}

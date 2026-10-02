@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-moved",
+  "service": "venv",
+  "revision": "1",
+  "title": "Moved environments and absolute script paths",
+  "summary": "Installed scripts normally contain absolute interpreter paths. Moving or copying an environment can leave its entry scripts pointing to an earlier location even when a Python symlink still exists.",
+  "tags": [
+    "venv_scripts",
+    "venv_script_path_mismatch",
+    "venv_script_scope_unknown",
+    "moved",
+    "shebang"
+  ],
+  "checks": [
+    "Inspect static Python shebang paths relative to the declared environment root.",
+    "Recreate the environment at its intended final path; validate application behavior through an independently authorized oracle."
+  ],
+  "limitations": "Shell trampolines and env-based shebangs remain unknown; target scripts are never executed.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://docs.python.org/3.14/library/venv.html",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "1b52cf0f2f126550b7cf421184d68f5ddfe51404978147e070bda5ff249e061b"
+}

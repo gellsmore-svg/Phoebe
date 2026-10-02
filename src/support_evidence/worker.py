@@ -10,7 +10,7 @@ import sys
 import time
 from .model import canonical, observation
 from .policy import resolve, allowed_path
-from .modules import postgresql, nginx
+from .modules import postgresql, nginx, docker, venv
 from .modules.common import CollectionStatus
 
 class TargetFailure(Exception):
@@ -91,6 +91,8 @@ def execute(probe,m):
     try:
         op=probe["operation"]
         if op in {"dns","tcp","tls","http","mongodb_ping","mongodb_read"} | postgresql.OPERATIONS | nginx.OPERATIONS:result=network(probe,m)
+        elif op in docker.OPERATIONS:result=docker.collect(probe,m)
+        elif op in venv.OPERATIONS:result=venv.collect(probe,m)
         elif op=="unix":
             path=allowed_path(probe["target"],m)
             with socket.socket(socket.AF_UNIX,socket.SOCK_STREAM) as s:s.settimeout(probe["timeout"]-0.1);s.connect(str(path))

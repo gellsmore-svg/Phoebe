@@ -31,7 +31,7 @@ def validate_manifest(m):
         if p["vantage"]!=m["agent_vantage"]:raise ValueError("probe vantage requires execution by that agent")
         if p["namespace"]!="current":raise ValueError("unsupported network namespace")
         if p["target"] not in m.get("allowed_targets",[]):raise ValueError("target not explicitly allowlisted")
-        if p["operation"] in {"filesystem","unix"}:allowed_path(p["target"],m)
+        if p["operation"] in {"filesystem","unix"} or p["operation"].startswith(("docker_","venv_")):allowed_path(p["target"],m)
         if p["operation"] in {"systemd","systemd_user"}:
             if p["target"] not in m.get("allowed_units",[]) or not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_.@:-]*\.service",p["target"]):raise ValueError("unit denied")
         if p.get("credential_ref") and not re.fullmatch(r"SUPPORT_[A-Z0-9_]+",p["credential_ref"]):raise ValueError("credential reference denied")

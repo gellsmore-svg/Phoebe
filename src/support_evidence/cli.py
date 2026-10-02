@@ -32,7 +32,7 @@ def parser():
     sub.add_parser("health");sub.add_parser("coverage");sub.add_parser("plugins")
     d=sub.add_parser("prune");d.add_argument("--before",type=float,required=True)
     d=sub.add_parser("knowledge");ks=d.add_subparsers(dest="knowledge_command",required=True)
-    k=ks.add_parser("search");k.add_argument("service",choices=["postgres","postgresql","nginx"]);k.add_argument("query");k.add_argument("--json",action="store_true")
+    k=ks.add_parser("search");k.add_argument("service",choices=["postgres","postgresql","nginx","docker","venv"]);k.add_argument("query");k.add_argument("--json",action="store_true")
     k=ks.add_parser("refresh");k.add_argument("--output",required=True)
     return p
 

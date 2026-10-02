@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "knowledge_card",
+  "id": "doc:ve-metadata",
+  "service": "venv",
+  "revision": "1",
+  "title": "Metadata corruption, duplicates and legacy installs",
+  "summary": "dist-info stores installed distribution metadata. Missing or malformed METADATA, duplicate normalized names, legacy egg metadata and unreadable files can leave dependency visibility incomplete.",
+  "tags": [
+    "venv_metadata_malformed",
+    "venv_metadata_missing",
+    "venv_duplicate_distribution",
+    "venv_metadata_permission",
+    "venv_metadata_budget",
+    "venv_site_packages_missing"
+  ],
+  "checks": [
+    "Check bounded local metadata completeness and duplicates without importing packages.",
+    "Distinguish unreadable/corrupt metadata from a positively observed missing requirement."
+  ],
+  "limitations": "RECORD hashes and installed payload files are not audited; legacy/editable paths remain unknown.",
+  "applicability": "POSIX CPython venv metadata for Python 3.11-3.14; static evidence only",
+  "source": {
+    "url": "https://packaging.python.org/en/latest/specifications/recording-installed-packages/",
+    "documentation_version": "Python 3.14 and current PyPA specifications",
+    "verified_at": "2026-10-02",
+    "licence": "original project summary; official documentation referenced, not copied"
+  },
+  "integrity": "e3411a3f83bf97f5e8c3c525227fd8884a467c52d8aa73d7aed8ec9fdc167e30"
+}

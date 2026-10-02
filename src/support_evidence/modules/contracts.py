@@ -1,7 +1,17 @@
 """Operation-specific thresholds and schemes: an absent contract is not health."""
+import re
+from pathlib import Path
 from urllib.parse import urlsplit
 
 FIELDS = {
+    "docker_daemon": set(),
+    "docker_container": {"container_state", "max_restarts"},
+    "docker_health": set(),
+    "docker_resources": {"min_memory_headroom_bytes", "min_pids_headroom"},
+    "venv_layout": {"python_version"},
+    "venv_isolation": {"isolated"},
+    "venv_dependencies": {"requirements"},
+    "venv_scripts": set(),
     "postgresql_connect": set(),
     "postgresql_read": {"min_rows", "lock_timeout_ms"},
     "postgresql_role": {"role"},
@@ -18,6 +28,24 @@ SERVICE_OPERATIONS = set(FIELDS) | {"postgresql_connect", "postgresql_read"}
 def validate_service_contract(probe):
     op, expected = probe["operation"], probe["expected"]
     if op not in SERVICE_OPERATIONS:
+        return
+    if op.startswith(("docker_", "venv_")):
+        if not Path(probe["target"]).is_absolute() or "://" in probe["target"]:
+            raise ValueError("local absolute service target required")
+        if probe.get("credential_ref") or probe["route"] != probe["target"]:
+            raise ValueError("local module requires target-scoped route and no credentials")
+        if set(expected)-FIELDS[op]: raise ValueError("unsupported service contract field")
+        required = {"docker_container":{"container_state","max_restarts"},"venv_layout":{"python_version"},"venv_isolation":{"isolated"},"venv_dependencies":{"requirements"}}.get(op,set())
+        if not required <= set(expected) or op=="docker_resources" and not expected:
+            raise ValueError("explicit local service contract required")
+        if op.startswith("docker_") and op!="docker_daemon" and not re.fullmatch(r"[a-f0-9]{64}",probe["instance_id"] or ""):
+            raise ValueError("full immutable container identity required")
+        if op=="docker_daemon" and probe["instance_id"] is not None:
+            raise ValueError("daemon identity must be scoped by socket and subject")
+        if op=="venv_dependencies":
+            from packaging.requirements import Requirement
+            for item in expected["requirements"]:
+                if Requirement(item).url: raise ValueError("direct URL contract unsupported")
         return
     scheme = urlsplit(probe["target"]).scheme
     if scheme not in ({"postgresql"} if op.startswith("postgresql") else {"http", "https"}):
